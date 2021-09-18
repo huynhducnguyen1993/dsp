@@ -1,0 +1,59 @@
+<div class="card">
+    <div class="card-header card-danger p-2 ">
+        <legend>Cập Nhật QR CODE Vecxin  </legend>
+    </div>
+    <div class="card-body ">
+        
+        <div class="form-group">
+            <img id="qr_moi"  class="profile-user-img img-fluid img-circle"  src="#" alt="" />
+        </div>
+        <form action="{%url 'tao-qr-code-vecxin'%}" enctype="multipart/form-data" method="POST" class="form-horizontal" role="form">
+            <div class="form-group">
+            {% csrf_token %}
+            <div class="form-group row">
+                
+                <div class="col-sm-12">
+                    <input type="number"  class="form-control"  name="muitiem" id="muitiem" placeholder="Nhập Mũi Tiêm">
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                <div class="col-sm-12">
+                    <label>Ngày Tiêm Gần Nhất  </label>
+                    <input type="date"  name="ngaytiem" class="form-control"   id="" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label>Upload Hình QR CODE vecxin </label>
+                <div class="col-sm-12">
+                    <input type="file"  class="form-control" name="qrcode"  id="qrcode" >
+                </div>
+            </div>
+
+            </div>
+
+            
+
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-info"> Gửi  </button>
+                </div>
+            </div>
+        </form>
+       
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#qr_moi').hide();
+        
+        $('#id_ngaytiemgannhat').addClass('form-control')
+    });
+    $("#id_qrcode_vecxin").change(function() {
+        $('#qr_moi').show();
+        const [file] = id_avatar.files
+        
+        avatar_moi.src = URL.createObjectURL(file)        
+    })
+</script>

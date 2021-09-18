@@ -1,0 +1,126 @@
+<br>
+
+
+<h2 style="text-align: center; color: rgb(5, 107, 27) ;"> THÔNG BÁO CÔNG TY ĐÔNG
+    SAPA
+</h2>
+<br>
+
+<div class="timeline timeline-inverse">
+    <!-- timeline time label -->
+    {%for item in tbct %}
+    {%if item.danhmuc.id == 1 %}
+    {% csrf_token %}
+    <div class="time-label">
+        <span class="bg-danger">
+            {{item.created_at}}
+        </span>
+    </div>
+    <div>
+        <i class="fas ion-ios-alarm-outline bg-primary"></i>
+        <style>
+            .daxem {
+                background-color: rgb(115, 214, 16);
+            }
+        </style>
+        <div class="timeline-item">
+            <span class="time"><i class="far ion-social-octocat"></i> {{item.tacgia}} </span>
+
+            <h3 class="timeline-header" id="trangthaidaxem_{{item.id}}"><a href="#">{{item.tieude}}
+                </a></h3>
+
+            <div class="timeline-body">
+                <div id="readmorect-{{item.id}}">
+                    {{item.noidung|safe|truncatechars:200}}
+                </div>
+                <div id="readfullct-{{item.id}}">
+                    {{item.noidung|safe}}
+                </div>
+
+
+            </div>
+            <div id="load_viewers{{item.id}}">
+
+            </div>
+
+            <div class="timeline-footer">
+                {%if item.id_viewers != None %}
+                {%for key,value in item.id_viewers.items %}
+
+                {%if value == nv.id %}
+                <script>
+                    $("#trangthaidaxem_{{item.id}}").addClass("daxem")
+                </script>
+
+
+
+                {%endif%}
+                {%endfor%}
+
+                {%endif%}
+                <a id="xemchitietct-{{item.id}}" class="btn btn-primary btn-sm">
+                    Xem chi tiết
+                </a>
+
+                <a id="thugonct-{{item.id}}" class="btn btn-dark btn-sm">
+                    Thu Gọn
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#readfullct-{{item.id}}').hide()
+            $('#thugonct-{{item.id}}').hide()
+            $('#daxemtbct-{{item.id}}').hide()
+            $("#daxemtbct-{{item.id}}").addClass('btn-warning')
+
+        });
+
+        $('#xemchitietct-{{item.id}}').click(this, function () {
+            $('#readmorect-{{item.id}}').hide()
+            $('#readfullct-{{item.id}}').show()
+            $('#xemchitietct-{{item.id}}').hide()
+            $('#thugonct-{{item.id}}').show()
+            $('#daxemtbct-{{item.id}}').show()
+        })
+
+        $('#daxemtbct-{{item.id}}').click(this, function () {
+            $('#daxemtbct-{{item.id}}').text('Nhân Viên Đã Xem')
+            $('#daxemtbct-{{item.id}}').removeClass('btn-warning')
+            $('#daxemtbct-{{item.id}}').addClass('btn-success')
+
+            $.ajax({
+                url: "{% url 'load-thong-bao' %}",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name*='csrfmiddlewaretoken']").val(),
+                    'idthongbao': '{{item.id}}',
+
+                },
+                success: function (data) {
+                    $("#load_viewers{{item.id}}").html(data);
+
+                }
+
+            });
+        });
+
+
+        $('#thugonct-{{item.id}}').click(this, function () {
+            $('#readmorect-{{item.id}}').show()
+            $('#readfullct-{{item.id}}').hide()
+            $('#xemchitietct-{{item.id}}').show()
+            $('#thugonct-{{item.id}}').hide()
+
+
+        });
+    </script>
+    {%endif%}
+
+    {%endfor%}
+
+</div>

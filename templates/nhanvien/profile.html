@@ -1,0 +1,414 @@
+{% extends 'base.html'%} {%load static%} {%block profile-nhanvien%}
+
+
+{%block css-profile%}
+
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback'%}">
+<!-- Font Awesome -->
+<!-- Select2 -->
+<link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css'%}">
+<link rel="stylesheet" href="{% static 'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+<!-- Bootstrap4 Duallistbox -->
+{%endblock%}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">User Profile</li>
+                    </ol>
+                </div>
+            </div>
+            {%for message in messages%}
+            {% if message %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-check"></i> Thông Báo !</h5>
+                {{ message }}
+              </div>
+           {%endif%}
+            {%endfor%}
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle" src="{{nv.avatar.url}}"
+                                    alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center">{{nv.tennv}}</h3>
+
+                            <p class="text-muted text-center">{{nv.sdt}}</p>
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>MaNV</b> <a class="float-right">{{nv.manv}}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Phòng ban </b> <a class="float-right">{{nvcv.phongban}}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Ngày vào làm</b> <a class="float-right">01-08-2019</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Chức Vụ </b> <a class="float-right"></a>
+                                </li>
+                            </ul>
+
+                            <a onclick="loadformavatar()" class="btn btn-info btn-block"><b>Cập nhật chân dung</b></a>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- About Me Box -->
+
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Hồ Sơ </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <strong><i class="fas fa-book mr-1"></i> Trình Độ </strong>
+
+                            <p class="text-muted">
+                                Đại Học - Công Nghệ Thông Tin
+                            </p>
+
+                            <hr>
+
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Địa Chỉ </strong>
+
+                            <p class="text-muted">{{nv.diachi}}</p>
+
+                            <hr>
+
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Quê Quán </strong>
+
+                            <p class="text-muted">
+                                {{nv.quequan}}
+                            </p>
+
+                            <hr>
+
+                            <strong><i class="far ion-iphone mr-1"></i> CMND/CCID </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info"> 212327520 </span></p>
+
+                           
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <!-- QR  -->
+                    <div class="card card-primary " id="qr_nhanvien">
+                        <div class="card-header">
+                            <h3 class="card-title">QR Nhân Viên </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <img src="{{ nv.qr_code.url }}" width="220px" height="220px" alt="{{ nv.tennv }}">
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                    <!--  -->
+                    <div class="card card-primary card-outline" id='vecxin'>
+                        <div class="card-body box-profile" style="background-color: #e8c744;">
+                            <div class="text-center"> 
+                                <img class="profile-user-img img-fluid img-circle" src="{%static 'img/cv.png'%}"
+                                    alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center"><strong style="color: floralwhite;"> ĐÃ TIÊM  {{vx.muitiem}} VEC XIN </strong></h3>
+
+                            
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                   <img src="{{vx.qrcode_vecxin.url }}" />
+                                </li>
+                               
+                            </ul>
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                   <p style="text-align: center; color: indigo;">Ngày Tiêm Gần Nhất :{{vx.ngaytiemgannhat|date:"d - m - y"}}</p>
+                                </li>
+                               
+                            </ul>
+                            {% if vx == None %}
+                            <a onclick="taoqrvecxin()" class="btn btn-primary btn-block"><b>Nhập QR VÉC XIN </b></a>
+                            
+                            {%else%}    
+                            <a onclick="loadqrvecxin()" class="btn btn-info btn-block"><b>Cập nhật QR VÉC XIN </b></a>
+                            {%endif%}
+                        </div>
+                        
+                        <!-- /.card-body -->
+                    </div>
+                    <div id="loadqrcode">
+
+                    </div>
+                    <!--  -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div id="loadprofile">
+
+                    </div>
+
+                    <script>
+                        function loadformavatar() {
+                            $.ajax({
+                                url: "{% url 'load-avatar' %}",
+                                data: {
+
+                                    'idnv': '{{nv.id}}',
+                                    
+                                },
+                                success: function (data) {
+                                    $("#loadprofile").html(data);
+
+                                }
+
+                            });                        
+                     }
+                     function loadqrvecxin() {
+                        
+                            $.ajax({
+                                url: "{% url 'load-qr-code-vecxin' %}",
+                                data: {
+
+                                    'idnv': '{{nv.id}}',
+                                    
+                                },
+                                success: function (data) {
+                                    $("#loadqrcode").html(data);
+
+                                }
+
+                            });                        
+                     }
+                     function taoqrvecxin() {
+                        
+                        $.ajax({
+                            url: "{% url 'tao-qr-code-vecxin' %}",
+                            
+                            success: function (data) {
+                                $("#loadqrcode").html(data);
+
+                            }
+
+                        });                        
+                 }
+                    
+                    
+                </script>
+                    <div class="card">
+
+
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link " href="#activity" data-toggle="tab">
+                                        Công - Lương - Thưởng </a></li>
+
+                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Bảo Hiểm
+                                    </a></li>
+                                <li class="nav-item"><a class="nav-link" href="#motacv" data-toggle="tab">Mô Tả CV
+                                    </a></li>
+                                <li class="nav-item"><a class="nav-link" href="#quytrinhcongty" data-toggle="tab">Quy
+                                        Trình
+                                    </a></li>
+                                <li class="nav-item"><a class="nav-link" href="#quidinhdinhcong" data-toggle="tab">Quy
+                                        Định - chế độ
+                                    </a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#thongbao" data-toggle="tab">Thông
+                                        Báo
+                                        CT</a></li>
+                                <li class="nav-item"><a class="nav-link " href="#thongbaopb" data-toggle="tab">Thông Báo
+                                        PB
+                                    </a></li>
+                            </ul>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class=" tab-pane" id="activity">
+
+
+                                    <section>
+                                        <div class="card-header p-2">
+                                            <ul class="nav nav-pills">
+                                                <li class="nav-item  "><a class="nav-link  " href="#cong"
+                                                        data-toggle="tab">BẢN CÔNG </a></li>
+                                                <li class="nav-item active "><a class="nav-link  active" href="#luong"
+                                                        data-toggle="tab">PHIẾU LƯƠNG </a></li>
+                                                <li class="nav-item  "><a class="nav-link  " href="#luongtn"
+                                                        data-toggle="tab">LƯƠNG THÂM NIÊN </a></li>
+                                                <li class="nav-item"><a class="nav-link " href="#lthuongp"
+                                                        data-toggle="tab">THƯỞNG THEO PHÒNG </a></li>
+                                                <li class="nav-item"><a class="nav-link " href="#lthuongn"
+                                                        data-toggle="tab">THƯỞNG THEO NĂM </a></li>
+
+                                            </ul>
+                                        </div>
+
+                                        <div class="tab-content">
+                                            <div class=" tab-pane " id="cong">
+                                                {%include 'nhanvien/include/bangcong.html'%}
+                                            </div>
+                                            <div class=" tab-pane active actives" id="luong">
+                                                {%include 'nhanvien/include/phieuluong.html'%}
+                                            </div>
+                                            <!-- lương thâm niên  -->
+                                            <div class=" tab-pane" id="luongtn">
+                                                {% include 'nhanvien/include/luongthamnien.html' %}
+                                            </div>
+                                            <!-- luong tham niên  -->
+                                            <div class=" tab-pane" id="lthuongp">
+                                                {%include 'nhanvien/include/thuongphongban.html'%}
+                                            </div>
+                                            <!--  -->
+                                            <div class=" tab-pane" id="lthuongn">
+                                                {%include 'nhanvien/include/thuongnam.html'%}
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </section>
+
+
+                                </div>
+                                <!-- /.tab-pane -->
+
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="timeline">
+
+                                    <div class="card-header p-2">
+
+                                        <ul class="nav nav-pills">
+                                            <li class="nav-item active "><a class="nav-link  active" href="#bhxh"
+                                                    data-toggle="tab">BẢO HIỂM XÃ HỘI </a></li>
+                                            <li class="nav-item"><a class="nav-link " href="#bhyt" data-toggle="tab">BẢO
+                                                    HIỂM Y TẾ </a></li>
+                                            <li class="nav-item"><a class="nav-link " href="#bh24h"
+                                                    data-toggle="tab">BẢO HIỂM 24H </a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content">
+                                        <br>
+                                        {% include 'nhanvien/include/bhxh.html' %}
+
+                                        <!-- Bảo Hiểm Xã hội  -->
+                                    </div>
+
+                                    <!-- ------------------------------------------------------------------------------------------------------ -->
+
+                                    <div class=" tab-pane" id="bhyt">
+                                        <!-- Bảo Hiểm Y tế  -->
+                                        {%include 'nhanvien/include/bhyt.html'%}
+                                        <!-- Bảo Hiểm Y tế  -->
+
+                                    </div>
+                                    <div class=" tab-pane" id="bh24h">
+                                        <!-- Bảo Hiểm 24H -->
+                                        {%include 'nhanvien/include/bh24h.html' %}
+
+                                        <!-- Bảo Hiểm 24H  -->
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="motacv">
+                                <!-- quy trình  -->
+                                {%include 'nhanvien/include/motacongviec.html'%}
+                                <!--  -->
+                            </div>
+                            <div class="tab-pane" id="quytrinhcongty">
+                                <!-- quy trình  -->
+
+                                {%include 'nhanvien/include/quytrinh.html'%}
+                                <!-- quy trình  -->
+                            </div>
+                            <!-- -------------------------------- -->
+                            <div class="tab-pane" id="quidinhdinhcong">
+                                <!--  -->
+                                {%include 'nhanvien/include/quydinhchedo.html' %}
+
+                                <!--  -->
+
+                            </div>
+
+                            <div class="active tab-pane" id="thongbao">
+
+                                {%include 'nhanvien/include/thongbaocongty.html'%}
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <!-- thong báo phòng ban  -->
+                            <div class=" tab-pane" id="thongbaopb">
+
+                                {% include 'nhanvien/include/thongbaophongban.html' %}
+
+                            </div>
+                            <!-- /thong báo  -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
+{%endblock%}
+
+{%block script-danhba%}
+<!-- Select2 -->
+
+
+<!-- Select2 -->
+
+<script src="{% static 'plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js'%}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js'%}"></script>
+<script src="{% static 'plugins/select2/js/select2.full.min.js'%}"></script>
+<script>
+    $(function () {
+        $('.select2').select2()
+    });
+</script>
+{%endblock%}
