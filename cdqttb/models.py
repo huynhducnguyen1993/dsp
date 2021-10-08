@@ -29,6 +29,7 @@ class Danhmucthongbao(models.Model):
 class Thongbao(models.Model):
     tieude = models.CharField(default='',max_length=255,verbose_name='Tiêu đề thông báo')
     danhmuc = models.ForeignKey(Danhmucthongbao,on_delete=models.CASCADE,verbose_name="Chọn Danh Mục")
+    file = models.FileField(default="",null=True,blank=True,upload_to='filecquydinhhedocongty/',verbose_name="Upload file (có thể đẻ trông)")
     noidung = RichTextUploadingField(verbose_name='Nội Dung Thông Báo')
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
     phongban = models.ForeignKey(Phongban,default='',null=True,blank=True,on_delete=models.CASCADE,verbose_name="Phòng ban Áp dụng -Nêu Công Ty thì không chọn ")
@@ -53,6 +54,7 @@ class Thongbao(models.Model):
 
 class Quytrinhphongban(models.Model):
     tenquytrinh = models.CharField(default='',max_length=255,verbose_name='Tên quy trình')
+    file = models.FileField(default="",null=True,blank=True,upload_to='filecquydinhhedocongty/',verbose_name="Upload file (có thể đẻ trông)")
     noidung = RichTextUploadingField(verbose_name='Nội Dung quy trình')
     phongban = models.ForeignKey(Phongban,on_delete=models.CASCADE,verbose_name="Phòng ban áp dụng")
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
@@ -72,6 +74,7 @@ class Quytrinhphongban(models.Model):
 
 class Quytrinhcongty(models.Model):
     tenquytrinh = models.CharField(default='',max_length=255,verbose_name='Tên quy trình')
+    file = models.FileField(default="",null=True,blank=True,upload_to='filecquydinhhedocongty/',verbose_name="Upload file (có thể đẻ trông)")
     noidung = RichTextUploadingField(verbose_name='Nội Dung quy trình')
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
     hienthi = models.BooleanField(verbose_name='Check : Cho hiển thị  - Uncheck : Tắt hiển thị')
@@ -90,6 +93,7 @@ class Quytrinhcongty(models.Model):
 
 class Quydinhphongban(models.Model):
     tenquydinh = models.CharField(default='',max_length=255,verbose_name='Tên quy định')
+    file = models.FileField(default="",null=True,blank=True,upload_to='filecquydinhhedocongty/',verbose_name="Upload file (có thể đẻ trông)")
     noidung = RichTextUploadingField(verbose_name='Nội Dung quy định')
     phongban = models.ForeignKey(Phongban,on_delete=models.CASCADE,verbose_name="Phòng ban áp dụng")
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
@@ -109,6 +113,7 @@ class Quydinhphongban(models.Model):
 
 class Quydinhcongty(models.Model):
     tenquydinh = models.CharField(default='',max_length=255,verbose_name='Tên quy định')
+    file = models.FileField(default="",null=True,blank=True,upload_to='filecquydinhhedocongty/',verbose_name="Upload file (có thể đẻ trông)")
     noidung = RichTextUploadingField(verbose_name='Nội Dung quy định')
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
     hienthi = models.BooleanField(verbose_name='Check : Cho hiển thị  - Uncheck : Tắt hiển thị')
@@ -129,7 +134,8 @@ class Quydinhcongty(models.Model):
 
 class Chedophongban(models.Model):
     tenchedo = models.CharField(default='',max_length=255,verbose_name='Tên Chế Độ')
-    noidung = RichTextUploadingField(verbose_name='Nội Dung Chế Độ ')
+    file = models.FileField(default="",null=True,blank=True,upload_to='filechedocongty/',verbose_name="Upload file (có thể đẻ trông)")
+    noidung = RichTextUploadingField(verbose_name='Nội Dung Chế Độ ',null=True,blank=True)
     phongban = models.ForeignKey(Phongban,on_delete=models.CASCADE,verbose_name="Phòng ban áp dụng")
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
     hienthi = models.BooleanField(verbose_name='Check : Cho hiển thị  - Uncheck : Tắt hiển thị')
@@ -148,7 +154,8 @@ class Chedophongban(models.Model):
 
 class Chedocongty(models.Model):
     tenchedo = models.CharField(default='',max_length=255,verbose_name='Tên Chế Độ')
-    noidung = RichTextUploadingField(verbose_name='Nội Dung Chế Độ ')
+    file = models.FileField(default="",null=True,blank=True,upload_to='filechedocongty/',verbose_name="Upload file (có thể đẻ trông)")
+    noidung = RichTextUploadingField(verbose_name='Nội Dung Chế Độ ',null=True,blank=True)
     tacgia = models.ForeignKey(Nhanvien,on_delete=models.CASCADE,verbose_name='Tác Giả')
     hienthi = models.BooleanField(verbose_name='Check : Cho hiển thị  - Uncheck : Tắt hiển thị')
     huy = models.BooleanField(verbose_name='Hủy Chế Độ')

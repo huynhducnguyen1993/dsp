@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^rk&6*q9z!i-3ibh9$3bt-fdu8df=s3$@_4=k&7f($ka9th5wx'
 
 # SECURITY WARNING: douen't run with debug turned on in production!
-DEBUG = True 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.101']
+DEBUG = True
+ALLOWED_HOSTS = ['dongsapa.net','localhost','45.117.171..177']
 
 
 # Application definition
@@ -55,7 +55,13 @@ INSTALLED_APPS = [
     'qr_code',
     'athuvien',
     'imagekit',
-    'sorl.thumbnail'
+    'sorl.thumbnail',
+    'adatxe',
+    'permistion',
+    'BHcassper',
+    'rangefilter',
+    
+    
         
 ]
 
@@ -67,8 +73,8 @@ CKEDITOR_CONFIGS = {
             ['Source', '-', 'Bold', 'Italic']
         ],
         
-        'height':300,
-        'width':950,
+        #'height':300,
+        'width':'100%',
         'skin': 'moono',
         'toolbar_Custom': [
             ['Font','Bold', 'Italic', 'Underline','blockQuote'],
@@ -123,8 +129,11 @@ CKEDITOR_CONFIGS = {
             'clipboard',
             'dialog',
             'dialogui',
-            'elementspath'
+            'elementspath',
+            'tableresize'
         ]),
+        
+
     }
 }
 
@@ -164,6 +173,14 @@ TEMPLATES = [
                 'qlns.context_processors.sep',
                 'qlns.context_processors.giaichi_chuaduyet',
                 'qlns.context_processors.Dexuat_lq',
+                'qlns.context_processors.xinphep',
+                'permistion.context_processors.qlns_khachhanglon',
+                'permistion.context_processors.qlns_nhanvien',
+                'permistion.context_processors.qlns_xinphep',
+                'permistion.context_processors.qlns_dexuat',
+                 'permistion.context_processors.qlns_giaichi',
+                 'permistion.context_processors.athuvien_thuvien',
+                 'permistion.context_processors.bhcasper',
                 
             ],
         },
@@ -191,9 +208,9 @@ REST_FRAMEWORK = {
 DATABASES = {     
 'default': {
  'ENGINE': 'django.db.backends.postgresql_psycopg2',
- 'NAME': 'sleeksoft',
- 'USER': 'sleekuser',
- 'PASSWORD': 's133ks0ft',
+ 'NAME': 'dongsapa',
+ 'USER': 'nguyenhuynh',
+ 'PASSWORD': 'Nguyen@123',
  'HOST': 'localhost',
  'PORT': ''  
 } 
@@ -273,13 +290,19 @@ STATIC_ROOT = 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST_USER = "dienmaydongsapa@gmail.com"
-EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST_USER = "dienmaydongsapa@gmail.com"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_PASSWORD = "qxospanyepzcdios"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'mail.dongsapa.com.vn'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = "qxospanyepzcdios"
-
+EMAIL_HOST_USER = 'nguyenhuynh@dongsapa.com.vn'
+EMAIL_HOST_PASSWORD = 'Nguyen@123'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

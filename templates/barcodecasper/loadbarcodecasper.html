@@ -1,0 +1,44 @@
+
+DANH SÁCH SERI CAPSER  QUÉT NGÀY : {{dt}}
+<div class="table-responsive">
+	<table class="table  table-bordered">
+		<thead>
+			<tr>
+				<th>Số Serial </th>
+                <th>Barcode </th>
+                <th>Tình Trạng Kích Hoạt </th>
+                <th>Action </th>
+			</tr>
+		</thead>
+		<tbody>
+            {%for item in lst %}
+            {% for z in item%}
+                    <tr>
+                        
+
+                        <td>{{z.seri}}  </td>
+                        <td style="padding: 50px;" ><img src="{{z.barcode.url}}" width="400" height="200"></td>
+                            
+                            
+                        <td> {% if z.active == False %} <h4 style="color: brown;">Chưa Kích Hoạt</h4>
+                        
+                            {%else%}
+                            <h4 style="color: rgb(10, 167, 36);">Đã Kích Hoạt</h4>
+                            {%endif%}
+                        </td>
+                        <td>
+                            {% if z.active == False %} 
+                            <a id="{{z.id}}" class="btn btn-success"><i class="ion-checkmark-round"></i></a>
+                       
+                            {%endif%}
+                            </td>
+                    </tr>
+                    
+  
+                {%endfor%}
+                {%endfor%}
+                            
+		</tbody>
+	</table>
+</div>
+

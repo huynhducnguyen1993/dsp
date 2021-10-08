@@ -19,7 +19,7 @@ from imagekit.admin import AdminThumbnail
 from imagekit import ImageSpec
 from imagekit.processors import ResizeToFill
 from imagekit.cachefiles import ImageCacheFile
-
+from django.db.models.functions import Lower
 
 admin.site.site_header="Đông Sapa"
 
@@ -67,7 +67,7 @@ admin.site.register(Loaihopdong)
 
 
 class AdminThumbnailSpec(ImageSpec):
-    processors = [ResizeToFill(120, 100)]
+    processors = [ResizeToFill(220, 180)]
     format = 'JPEG'
     options = {'quality': 60 }
 
@@ -80,19 +80,20 @@ def cached_admin_thumb(instance):
 
 class NhanvienAdmins(ImportExportActionModelAdmin):
     
-    list_display = ('__str__','id','manv', 'tennv', 'username', 'admin_qrcode','avatar_preview','cmnd_1_preview')
+    list_display = ('__str__','id','manv', 'tennv', 'username', 'admin_qrcode','avatar_preview','cmnd_1_preview',)
     search_fields = ('tennv',)
     list_filter = ('phongban',)
+    
     readonly_fields =('avatar_preview',)
-    list_per_page = 10
+    list_per_page = 20
     resource_class = NhanvienResource
     form = AddnhanvienAdmin
     fieldsets= (('Thông Tin Nhân Viên ',{
-                            'fields':('manv','username','tennv','gioitinh','ngaysinh','diachi','quequan',),
+                            'fields':('manv','username','tennv','gioitinh','ngaysinh','diachi','diachihientai','quequan',),
                              
                        }),
                    ('Hồ Sơ  Nhân Viên ',{
-                            'fields':('phongban','tinhtrangcongviec','masohs','ngaythuviec','ngaychinhthuc','chuyenmon','vanhoa',),
+                            'fields':('phongban','vitricongviec','tinhtrangcongviec','masohs','ngaythuviec','ngaychinhthuc','chuyenmon','vanhoa',),
                              
         }),
                      ('Chứng Minh Nhân Dân - Thẻ Căn Cước  ',{
@@ -112,6 +113,10 @@ class NhanvienAdmins(ImportExportActionModelAdmin):
                             'fields':('thoiviec','ngaythoiviec','lydonghiviec',),
                              
         }),
+         ('Hôn Nhân    ',{
+                            'fields':('tinhtranghonnhan','sos',),
+                             
+        }),
         )
     admin_qrcode = AdminThumbnail(image_field=cached_admin_thumb)
     admin_qrcode.short_description = "QR Nhân Viên "
@@ -126,7 +131,19 @@ class NhanvienAdmins(ImportExportActionModelAdmin):
 
     cmnd_1_preview.short_description = 'CMND/CCID Mặt Trước'
     cmnd_1_preview.allow_tags = True
+    def cmnd_2_image(self, obj):
+        if obj.cmnd_2.url:
+            url = obj.cmnd_2.url,
+            width=obj.cmnd_2.width,
+            height=obj.cmnd_2.height,
+            
 
+        else:
+            url = obj.cmnd_1.url,
+            width = 0,
+            height = 0,
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url,width,height))
 
 admin.site.register(Nhanvien, NhanvienAdmins)
 
@@ -169,22 +186,31 @@ admin.site.register(Phongban, PhongbanAdmin)
 
 
 
-# class NhanvienChucvuAdmin(admin.ModelAdmin):
-#     list_display = ('nhanvien', 'phongban','tencongviec')
+class NhanvienChucvuAdmin(admin.ModelAdmin):
+    list_display = ('nhanvien', 'phongban','tencongviec')
+    list_filter =('phongban',)
 
 
-# admin.site.register(Chucvu_Congviec, NhanvienChucvuAdmin)
+admin.site.register(Chucvu_Congviec, NhanvienChucvuAdmin)
 
 class BaohiemxahoiAdmin(admin.ModelAdmin):
     list_display = ('nhanvien', 'masobhxh','ngaythamgia','noidangky')
-
+    list_filter = ('nhanvien__phongban',)
 
 admin.site.register(Baohiemxahoi, BaohiemxahoiAdmin)
 
 
+
+class XinphepAdmins(admin.ModelAdmin):
+    list_display = ('nhanvien', 'ngaynghi','ngaylamlai')
+    list_filter = ('nhanvien__phongban',)
+
+admin.site.register(Xinphep, XinphepAdmins)
+
+
 class BaohiemytAdmin(admin.ModelAdmin):
     list_display = ('nhanvien', 'masobhyt','ngaythamgia','noidangky')
-
+    list_filter = ('nhanvien__phongban',)
 
 admin.site.register(Baohiemyte, BaohiemytAdmin)
 
@@ -196,7 +222,7 @@ admin.site.register(Baohiemyte, BaohiemytAdmin)
 
 class HosokinhdoanhAdmin(admin.ModelAdmin):
     list_display = ('masohopdong', 'tenhopdong','ngaytrinhky','filehopdong','nhanvien','created_at','updated_at')
-
+    list_filter = ('nhanvien__phongban',)
 
 admin.site.register(Quanlyhopdongkinhdoanh, HosokinhdoanhAdmin)
 
@@ -213,7 +239,7 @@ class DexuatAdmin(admin.ModelAdmin):
 admin.site.register(Dexuat, DexuatAdmin)
 
 class GiaichiAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nhanvien','phongban','tieude','filegiaichi')
+    list_display = ('id', 'nhanvien','phongban','tieude')
     list_filter = ('phongban',)
     search_fields = ('nhanvien',)
     list_per_page = 10
@@ -230,18 +256,6 @@ class GiaichiAdmin(admin.ModelAdmin):
 
 admin.site.register(Giaichi, GiaichiAdmin)
 
-
-class QuyenAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nhanvien','phongban')
-    list_filter = ('phongban',)
-    search_fields = ('nhanvien',)
-    list_per_page = 10
-    import_id_fields = ('id',)
-    skip_unchanged = True
-    report_skipped = True
-    exclude = ('id',)
-
-admin.site.register(Phanquyen, QuyenAdmin)
 
 
 class MotacongviecAdmin(admin.ModelAdmin):

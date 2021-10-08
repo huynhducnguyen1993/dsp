@@ -1,0 +1,70 @@
+{% for item in xinphep %}
+<tr>
+
+    <td>{{item.nhanvien}}</td>
+    <td>{{item.ngaynghi|date:"d - m - y"}}</td>
+    <td>{{item.ngaylamlai|date:"d - m - y"}}</td>
+    <td>{{item.lydo}}</td>
+    <td>{{item.lienlac}}</td>
+    <td>
+        {% if item.tp_duyet == True %} <a class="btn btn-success btn-sm "> TP đã duyệt
+        </a>{% endif %}
+        {% if item.sep_duyet == False%} <a class="btn btn-danger btn-sm "> Sép chưa duyệt
+        </a>{% endif %}
+
+    </td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            {% csrf_token %}
+            <a id="view-{{item.id}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+            
+
+            {%if cv.sep == True %}
+            <a id="duyet-{{item.id}}" class="btn btn-success"><i class="ion-checkmark-round"></i></a>
+            {%endif%}
+        </div>
+    </td>
+
+</tr>
+<script>
+    $('#view-{{item.id}}').click(this, function () {
+        $('#button-xp').hide()
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'load-view-xin-phep' %}",
+            data: {
+
+                'id-xp': '{{item.id}}',
+            },
+            success: function (data) {
+                $("#form-xin-phep").html(data);
+
+            }
+
+        });
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+
+    });
+    $('#duyet-{{item.id}}').click(this, function () {
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'duyet-xp-sep' %}",
+            data:{
+               'id_xp':"{{item.id}}",
+           },
+            success: function (data) {
+                $("#xin-phep-sep").html(data);
+
+            }
+
+        });
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        
+
+    });
+
+</script>
+{% endfor %}

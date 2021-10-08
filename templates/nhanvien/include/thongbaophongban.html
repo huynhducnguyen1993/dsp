@@ -26,18 +26,39 @@
 
             <div class="timeline-body">
                <div id="readmorepb-{{item.id}}"> 
-                {{item.noidung|safe|truncatechars:200}}
+                {{item.noidung|safe|truncatechars:100}}
                </div> 
-               <div id="readfullpb-{{item.id}}"> 
-                {{item.noidung|safe}}
-               </div>
+               
                 
 
             </div>
 
             <div class="timeline-footer">
-                <a onclick="xemchitietpb()" id="xemchitietpb-{{item.id}}" class="btn btn-primary btn-sm">Xem chi tiết </a>
-                <a onclick="thugonpb()" id="thugonpb-{{item.id}}" class="btn btn-dark btn-sm">Thu Gọn  </a>
+                <button type="button" class="btn  btn-sm btn-primary" data-toggle="modal"  data-target="#exampleModal1">
+                    Xem Chi Tiết
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade bd-example-modal-xl" id="exampleModal1" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" class="btn btn-sm btn-info" id="exampleModalLabel">{{item.tieude}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{item.noidung|safe}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button  id="daxemtbct-{{item.id}}" type="button" class="btn btn-primary">Đã Xem</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -1,0 +1,111 @@
+{% extends 'base.html'%}
+{%load static%}
+
+
+
+{%block danh-sach-nv%}
+
+<div class="content-wrapper">
+  <section class="content-header">
+    <div class="container-fluid">
+      
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">      
+    </div>
+  </section>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-6">
+                  <h3 class="card-title">
+                    
+                  </h3>
+                </div>
+              
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                 <thead>
+                  <tr>
+                    <th>Mã Nhân Viên</th>
+                    <th>Chân Dung</th>
+                    <th>Họ Và Tên</th>
+                    <th>Giới Tính</th>
+                    <th>Sinh Nhật </th>
+                    <th>Tình Trạng Hôn Nhân</th>
+                    <th>Quê Quán</th>
+                    <th>Địa Chỉ Hiện Tại</th>
+                    <th>Số Điện CT</th>
+                    <th>Số Điện CN</th>
+                    <th>Line Nội Bộ</th>
+                    <th>Email</th>
+                    <th> Văn Hóa </th>
+                    <th>CMND</th>
+                    <th>Ngày Cấp</th>
+                    <th>Nơi Cấp</th>
+                    <th>Ảnh Mặt Trước</th>
+                    <th>Ảnh Mặt Sau</th>
+                    <th>Phòng Ban</th>
+                    <th>Ngày Thử Việc</th>
+                    <th>Ngày Làm Chính Thức</th>
+                    <th>Vị Trí Công Việc</th>
+                    <th>Tình Trạng Công Việc</th>
+                    <th>chử ký 1</th>
+                    <th>chử ký 2</th>
+                    <th>Ngày Cập Nhật</th>
+                  </tr>
+                </thead>
+                <tbody id="nhan-su">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+<!-- 
+<script>
+  $(document).ready(function () {
+    $.ajax({
+
+      url: "{% url 'load-xin-phep-auto' %}",
+
+      success: function (data) {
+        $("#xin-phep").html(data);
+
+      }
+
+    });
+  });
+  function donnghiphep() {
+    $('#button-xp').hide()
+
+    $.ajax({
+      url: "{% url 'load-xin-phep' %}",
+
+      success: function (data) {
+        $("#form-xin-phep").html(data);
+
+      }
+
+    });
+  }
+</script>
+ -->
+
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{%endblock%}

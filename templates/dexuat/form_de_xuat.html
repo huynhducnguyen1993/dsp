@@ -34,7 +34,7 @@
       </div>
     </section>
     <section class="content">
-      <div class="container-fluid" style="padding: 30px;">
+      <div class="container-fluid" style="padding: 5px;">
 
 
 
@@ -45,7 +45,7 @@
           {% csrf_token %}
 
           <div class="row">
-            <div class="col mb-4">
+            <div class="col-md-4">
 
 
               <h6>
@@ -73,7 +73,7 @@
 
             </div>
             &ensp;
-            <div class="col mb-4">
+            <div class="col-md-4">
 
               <h6>Phòng Ban :
                 <input type="text" value="{{phongban}}" readonly name="phongban" id="id_phongban" class="form-control">
@@ -93,13 +93,13 @@
                   <option value="{{item}}"> {{item}}</option>
                   {%endfor%}
                 </select>
-                
+
               </div>
 
 
             </div>
-            &ensp;
-            <div class="col mb-3">
+            
+            <div class="col-md-3">
 
 
               <h6>Hạng Mục Đề Xuất
@@ -115,20 +115,37 @@
               </h6>
 
             </div>
-            <div class="col mb-11">
+          </div>
+          
+              <div class="card card-outline card-dark ">
+                <div class="card-header">
+                    <h3 class="card-title"><h6>Tiêu Đề :</h6>
+                      <div style="background-color: rgb(188, 208, 245);">
+                        <textarea name="tieude" id="id_tieude" class="form-control" rows="1" placeholder="Tiêu đề - Đề Xuất "></textarea>
+        
+                      </div> </h3>
 
-              <h6>Tiêu Đề :</h6>
-              <div style="background-color: rgb(188, 208, 245);">
-                <textarea name="tieude" id="id_tieude" class="form-control" rows="1"></textarea>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
 
-              </div> <br>
+                <div class="card-body">
+                  <div class="text-center">
+                    <h6>Nội Dung Chi Tiết :</h6>
+                  {{form.noidung}}
+                  </div>
+                  
 
-              <h6>Nội Dung Chi Tiết :</h6>
-              {{form.noidung}}
+                </div>
 
-
-
-            </div>
+              </div>
+                <!-- /.card-body -->
+           
 
             <br>
             <div class="quaylai" id="quaylai">

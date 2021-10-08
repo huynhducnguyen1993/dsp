@@ -181,7 +181,7 @@ class Form_edit_giai_chi(forms.ModelForm):
     
     class Meta:
         model = Giaichi 
-        fields = ['guiduyet','ghichu','phongban','tieude','giaichihanghoa','giaichithietbi','giaichikhac','trangthaiduyet_tp','trangthaiduyet_tp','tiengiaichi','filegiaichi']
+        fields = ['guiduyet','ghichu','phongban','tieude','giaichihanghoa','giaichithietbi','giaichikhac','trangthaiduyet_tp','trangthaiduyet_tp','tiengiaichi',]
         
         widgets = {
             'giaichihanghoa':forms.CharField(widget=CKEditorWidget())
@@ -200,4 +200,18 @@ class Form_nhap_giai_chi(forms.ModelForm):
 class Formxinphep(forms.ModelForm):
     class Meta :
         model = Xinphep
-        fields = ['nhanvien','ngaynghi','ngaylamlai','lydo','guiduyet',]
+        fields = ['nhanvien','ngaynghi','ngaylamlai','phongban','lydo','lienlac','guiduyet',]
+
+class Deletexinphep(forms.ModelForm):
+    class Meta :
+        model = Xinphep
+        fields = '__all__'
+
+class Pheduyetxptp(forms.ModelForm):
+    class Meta :
+        model = Xinphep
+        fields = ['tp_duyet',]
+class Pheduyetxpsep(forms.ModelForm):
+    class Meta :
+        model = Xinphep
+        fields = ['sep_duyet',]

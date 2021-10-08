@@ -1,3 +1,75 @@
 {% for item in xinphep %}
+<tr>
 
+    <td>{{item.nhanvien}}</td>
+    <td>{{item.ngaynghi|date:"d - m - y"}}</td>
+    <td>{{item.ngaylamlai|date:"d - m - y"}}</td>
+    <td>{{item.lydo}}</td>
+    <td>{{item.lienlac}}</td>
+    <td>
+        {% if item.sep_duyet == False or item.tp_duyet == False %} <a class="btn btn-danger btn-sm "> chưa duyệt 
+        </a>{% endif %}
+        {% if item.sep_duyet == True and item.tp_duyet == True %} <a class="btn btn-success btn-sm "> đã duyệt
+        </a>{% endif %}
+
+    </td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            {% csrf_token %}
+            <a id="view-{{item.id}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+            
+            {%if item.sep_duyet == False and item.tp_duyet == False %}
+            <a href="#" class="btn btn-warning "><i class="fas ion-edit"></i> </a>
+            {%endif %}
+
+            {%if item.sep_duyet == False and item.tp_duyet == False and item.nhanvien.username == request.user %}
+            <a id="delete-{{item.id}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+            {% endif %}
+
+            
+        </div>
+    </td>
+
+</tr>
+<script>
+    $('#view-{{item.id}}').click(this, function () {
+        $('#button-xp').hide()
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'load-view-xin-phep' %}",
+            data: {
+
+                'id-xp': '{{item.id}}',
+            },
+            success: function (data) {
+                $("#form-xin-phep").html(data);
+
+            }
+
+        });
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+
+    });
+
+    $('#delete-{{item.id}}').click(this, function () {
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'load-delete-xin-phep' %}",
+            data: {
+                'csrfmiddlewaretoken': $("input[name*='csrfmiddlewaretoken']").val(),
+                'id_xp': '{{item.id}}',
+            },
+            success: function (data) {
+                $("#xin-phep").html(data);
+
+            }
+
+        });
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+
+    });
+</script>
 {% endfor %}

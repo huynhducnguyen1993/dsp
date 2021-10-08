@@ -1,0 +1,56 @@
+<div class="card-body">
+    <div class="form-group row">
+        <label for="dctt" class="col-sm-3 col-form-label">Địa Chỉ Hiện Tại  </label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name ="dctt"  id="dcht" placeholder="Đại Chỉ Hiện Tại">
+        </div>
+      </div>
+    
+    <div class="form-group row">
+      <label for="dtcn" class="col-sm-3 col-form-label">Điện Thoại Cá Nhân</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="dtcn" name="sdtcn"  placeholder="Điện Thoại Cá Nhân">
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="tthn" class="col-sm-3 col-form-label"> Tình Trạng Hôn Nhân</label>
+      <div class="col-sm-9">
+        <select class="form-control " name="tthn">
+            <option >  ------------- </option>
+            <option value="True"> Đã Kết Hôn</option>
+            <option value="False"> Độc Thân </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="dtcn" class="col-sm-3 col-form-label">Cập Nhật CMND/CCCD </label>
+        <div class="col-sm-3">
+            Số CMND
+          <input type="number"  class="form-control" name="so_cmnd" id="cmnd" placeholder="Số CMND/CCCD">
+        </div>
+        <div class="col-sm-3">
+            Ngày Cấp
+            <input type="date" class="form-control" name="ngaycap_cmnd" id="cm_ngc">
+          </div>
+
+          <div class="col-sm-3">
+            Nơi Cấp
+            <input type="text" class="form-control" name="noicap_cmnd" id="cm_nc" placeholder="Nơi Cấp">
+          </div>
+      </div>
+        <div class="form-group row">
+        <label for="dtcn" class="col-sm-3 col-form-label"> Cập nhật hình  CMND/CCCD   </label>
+        <div class="col-sm-4">
+            <a target="blank" href="{{nv.cmnd_1.url}}" id="cmnd_1"> <img class="profile-user-img img-fluid " src="{{nv.cmnd_1.url}}"
+                alt="cmnd 1"> </span></a> 
+            <input type="file" class="form-control" name="file_cmnd_1" id="cmnd_1">
+        </div>
+        
+        <div class="col-sm-4">
+            <a target="blank" href="{{nv.cmnd_2.url}}" id="cmnd_2"> <img class="profile-user-img img-fluid " src="{{nv.cmnd_2.url}}"
+                alt="cmnd 2"> </span></a> 
+            <input type="file" class="form-control" name="file_cmnd_2" id="cmnd_2">
+        </div>
+      </div>
+  </div>
+  <!-- /.card-body -->

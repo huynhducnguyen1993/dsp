@@ -48,9 +48,20 @@
                 <div class="col col-4">
                     <h6>
                         File Hóa Đơn chứng từ (nếu Có): 
-                        <input type="file" id="filegiaichi" name="filegiaichi" class="form-control" required>
-                    
+                       <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" id="filegiaichi" name="filegiaichi[]" class="form-control" required>
+                        
+                           
+                          </div>
+                          <div class="input-group-append">
+                            <a href="#"> <span class="input-group-text">+ Thêm File</span></a>
+                          </div>
+                        </div>
+
+
                     </h6>
+
                     <h6 style="color: rgb(81, 125, 248);">
                         Số Tiền Đã Tạm Ứng 
                         <input type="number" value="{{giaichi.tientamung}}" disabled style="border: gold; color: rgb(107, 6, 45); border: ghostwhite;" name="tientamung" class="form-control">
@@ -120,6 +131,12 @@
 <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 
 <script>
+
+</script>
+
+<script>
+
+
     function formatNumber(nStr, decSeperate, groupSeperate) {
       nStr += '';
       x = nStr.split(decSeperate);

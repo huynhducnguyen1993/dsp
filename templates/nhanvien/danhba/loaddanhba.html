@@ -59,9 +59,15 @@
                             <a href="tel:{{item.sdt}}" class="btn btn-sm bg-teal">
                                 <i class="fas ion-ios-telephone-outline"></i>
                             </a>
-                            <a href="#" class="btn btn-sm btn-primary">
-                                <i class="fas fa-user"></i> Xem thêm
+                            {%if item.sdt == None %}
+                            <a href="https://zalo.me/{{item.sdt2|cut:' '}}" target="blank" class="btn btn-sm btn-primary">
+                                <i class="fas fa-user"></i> Liên hệ Zalo
                             </a>
+                            {%else%}
+                            <a href="https://zalo.me/{{item.sdt|cut:' '}}" target="blank" class="btn btn-sm btn-primary">
+                                <i class="fas fa-user"></i> Liên hệ Zalo
+                            </a>
+                            {%endif%}
                         </div>
                     </div>
                 </div>

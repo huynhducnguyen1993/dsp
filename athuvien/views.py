@@ -50,3 +50,7 @@ class Catolog(View):
             'danhmuc':danhmuc,
         }
         return render(request,'thuvien/catolog.html',context)
+
+class Quetqrcode(View):
+    def get(self,request):
+        return render(request,'scanqr_code/index.html')

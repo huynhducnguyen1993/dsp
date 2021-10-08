@@ -72,7 +72,7 @@
                         <div class="card card-primary card-outline">
                             <div class="card-body  box-profile">
                                 <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="{{nv.avatar.url}}"
+                                    <img class="profile-user-img img-fluid " src="{{nv.avatar.url}}"
                                         alt="User profile picture">
                                 </div>
 
@@ -89,7 +89,13 @@
                                     </li>
 
                                     <li class="list-group-item">
-                                        <b>Vị Trí </b> <a class="float-right"></a>
+                                        <b>Vị Trí </b> <a class="float-right">{{nv.vitricongviec}}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Liên Hệ Zalo </b> <a class="float-right" href="https://zalo.me/{{nv.sdt|cut:' '}}"> {{nv.sdt}} </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Liên Hệ Zalo  Cá Nhân </b> <a class="float-right" href="https://zalo.me/{{nv.sdt2|cut:' '}}"> {{nv.sdt2}} </a>
                                     </li>
                                 </ul>
 
@@ -140,7 +146,7 @@
                             <div class="card-header  card-primary p-2">
                                 <ul class="nav nav-pills">
                                     <li class="nav-item"><a class="nav-link " href="#activity" data-toggle="tab">
-                                            THÔNG TIN TIÊM CHỦNG VEC XIN COVID </a>
+                                            THÔNG TIN TIÊM CHỦNG VẮC XIN COVID </a>
                                     </li>
 
 
@@ -148,28 +154,53 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <div class="tab-content" style="background-color: #e8c744;">
+                                <div class="tab-content"  id="color-vacxin" style="background-color:red;">
 
                                     <div class="row">
                                         <div class="col-md-3" style="padding: 30px; text-align: center;">
-                                            <img src ="media/imge/cv.png" width="100px" height="100px"/>
-                                            <h4 style="color: white ;text-align: center;">ĐÃ TIÊM {{vx.muitiem}} VECXIN </h4>
+                                            <img src="media/imge/cv.png" width="100px" height="100px" />
+                                           {% if vx.muitiem == 0 or vx.muitiem == None %}
+                                           <h4 style="color: white ;text-align: center; font: optional;">NHÂN VIÊN CHƯA ĐƯỢC CẬP NHẬT </h4>
+                                           {%endif%}
+                                           {%if vx.muitiem == 1 or vx.muitiem == 2 or vx.muitiem == 3%}
+                                            <h4 style="color: white ;text-align: center; font: optional;"><hr  style="color: #fdfdfd;">   ĐÃ TIÊM
+                                               <strong> 0{{vx.muitiem}}</strong> MŨI VẮC XIN <hr >  </h4>
+                                            {%endif%}
                                         </div>
-                                        <div class="col-md-3" style="background-color: #e8c744; padding: auto;">
-                                            <img src="{{ vx.qrcode_vecxin.url }}" style="padding: 10px;" />
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <img src="{{ vx.qrcode_vecxin.url }}" class="thumnail rounded" style="padding: 10px;" />
+                                            </div>
+
                                         </div>
-                                        <div class="col-md-4  bg-white " >
-                                            <div  style="padding: 10px ;background-color: #fdfdfd; width: auto;height: 235px;" >
+                                        <div class="col-md-4  bg-white ">
+                                            <div class="text-center">
+                                            <div
+                                                style="padding: 10px ;background-color: #fdfdfd; width: auto;height: 235px;">
                                                 <h6> <br>Số Mũi Tiêm : <strong
                                                         style="color: brown;">{{vx.muitiem}}</strong></h6>
                                                 <h6> Ngày Tiêm Gần Nhất : <strong
                                                         style="color: brown;">{{vx.ngaytiemgannhat}}</strong></h6>
                                             </div>
-
+                                        </div>
                                         </div>
                                     </div>
 
                                 </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        
+                                        var muitiem = "{{vx.muitiem}}"
+                                    
+                                        if (muitiem == 1) {
+                                            $('#color-vacxin').css("background-color", "#e8c744");
+                                        }
+                                        if (muitiem == 2) {
+                                            $('#color-vacxin').css("background-color", "#3d8b52");
+                                        }
+                                       
+                                    });
+                                </script>
                                 <!-- /.tab-content -->
                             </div>
                             <!-- /.card-body -->

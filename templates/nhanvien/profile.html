@@ -35,8 +35,8 @@
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h5><i class="icon fas fa-check"></i> Thông Báo !</h5>
                 {{ message }}
-              </div>
-           {%endif%}
+            </div>
+            {%endif%}
             {%endfor%}
         </div>
         <!-- /.container-fluid -->
@@ -46,7 +46,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-12">
 
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
@@ -65,22 +65,25 @@
                                     <b>MaNV</b> <a class="float-right">{{nv.manv}}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Phòng ban </b> <a class="float-right">{{nvcv.phongban}}</a>
+                                    <b>Phòng ban </b> <a class="float-right">{{nv.phongban}}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Ngày vào làm</b> <a class="float-right">01-08-2019</a>
+                                    <b>Ngày vào làm</b> <a class="float-right">{{nv.ngaythuviec}}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Chức Vụ </b> <a class="float-right"></a>
+                                    <b>Vị Trí </b> <a class="float-right">{{nv.vitricongviec}}</a>
                                 </li>
                             </ul>
 
-                            <a onclick="loadformavatar()" class="btn btn-info btn-block"><b>Cập nhật chân dung</b></a>
+                           <div class="text-center"> <a onclick="loadformavatar()" class="btn btn-info "><b>Cập nhật chân dung</b></a></div>
                         </div>
+                       
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
+                    <div id="loadprofile">
 
+                    </div>
                     <!-- About Me Box -->
 
                     <div class="card card-primary">
@@ -89,10 +92,10 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <strong><i class="fas fa-book mr-1"></i> Trình Độ </strong>
+                            <strong><i class="fas fa-book mr-1"></i> Văn Hóa : </strong>
 
                             <p class="text-muted">
-                                Đại Học - Công Nghệ Thông Tin
+                                {{nv.vanhoa}}
                             </p>
 
                             <hr>
@@ -113,14 +116,123 @@
 
                             <strong><i class="far ion-iphone mr-1"></i> CMND/CCID </strong>
 
-                            <p class="text-muted"> <span class="tag tag-info"> 212327520 </span></p>
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {{nv.cmnd}} </span></p>
 
+                            <hr>
+                            <strong><i class="far ion-iphone mr-1"></i> Ảnh CMND/CCID </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> <a target="blank" href="{{nv.cmnd_1.url}}"> <img class="profile-user-img img-fluid " src="{{nv.cmnd_1.url}}"
+                                alt="cmnd 1"> </span></a>  <span  class="tag tag-info  mr-2"> <a target="blank" href="{{nv.cmnd_2.url}}"> <img class="profile-user-img img-fluid " src="{{nv.cmnd_2.url}}"
+                                    alt="cmnd 1"> </span> </a> </p>
+
+                            <hr>
+
+                            <strong><i class="far ion-at  mr-1"></i> Email </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {{nv.email}} </span></p>
+                            <hr>
+                            <strong><i class="far ion-ipad  mr-1"></i> Điện Thoại Công Ty  </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {{nv.sdt}} </span></p>
+                            <hr>
+                            <strong><i class="far ion-ipad  mr-1"></i> Điện Thoại Cá Nhân </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {{nv.sdt2}} </span></p>
+                            <hr>
+                            <strong><i class="far ion-briefcase  mr-1"></i> Tình Trạng Công Việc  </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {%if nv.tinhtrangcongviec == True %}Nhân Viên Chính Thức {% else %} Nhân Viên Thử Việc {%endif%}</span></p>
                            
+                            
+
+                            <strong><i class="far ion-transgender  mr-1"></i> Tình Trạng Hôn Nhân  </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {%if nv.tinhtranghonnhan == True %} Đã Kết Hôn  {% else %} Độc Thân  {%endif%}</span></p>
+
+                            <hr>
+                            <strong><i class="far ion-log-in  mr-1"></i>Liên Hệ Khẩn Cấp  </strong>
+
+                            <p class="text-muted"> <span class="tag tag-info  mr-1"> {{nv.sos}} </span></p>
+                            <hr>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target=".bd-example-modal-lg{{nv.id}}">Cập Nhật Hồ Sơ</button>
+
+                                <div class="modal fade bd-example-modal-lg{{nv.id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Cập Nhật Thông Tin Cá NHân </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            {% include  'nhanvien/include/form_cap_nhat_ho_so.html' %}
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Đóng </button>
+                                            <button type="button" class="btn btn-sm btn-primary">Gửi Duyệt Cập Nhật</button>
+                                          </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>    
+                            
 
                         </div>
                         <!-- /.card-body -->
+
+                        <script>
+                            function loadformavatar() {
+                                $.ajax({
+                                    url: "{% url 'load-avatar' %}",
+                                    data: {
+
+                                        'idnv': '{{nv.id}}',
+
+                                    },
+                                    success: function (data) {
+                                        $("#loadprofile").html(data);
+
+                                    }
+
+                                });
+                            }
+                            function loadqrvecxin() {
+
+                                $.ajax({
+                                    url: "{% url 'load-qr-code-vecxin' %}",
+                                    data: {
+
+                                        'idnv': '{{nv.id}}',
+
+                                    },
+                                    success: function (data) {
+                                        $("#loadqrcode").html(data);
+
+                                    }
+
+                                });
+                            }
+                            function taoqrvecxin() {
+
+                                $.ajax({
+                                    url: "{% url 'tao-qr-code-vecxin' %}",
+
+                                    success: function (data) {
+                                        $("#loadqrcode").html(data);
+
+                                    }
+
+                                });
+                            }
+
+
+                        </script>
                     </div>
                     <!-- /.card -->
+
+
                     <!-- QR  -->
                     <div class="card card-primary " id="qr_nhanvien">
                         <div class="card-header">
@@ -128,44 +240,63 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-
-                            <img src="{{ nv.qr_code.url }}" width="220px" height="220px" alt="{{ nv.tennv }}">
+                            <div class="text-center">
+                                <a href="http://dongsapa.net/ed5511ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f-ed5511ad61be3b785518eddc96e4bc3f{{nv.id}}" target="blank"> <img src="{{ nv.qr_code.url }}" class="img-thumbnail" width="220px" height="220px"
+                                    alt="{{ nv.tennv }}"></a>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
 
                     <!--  -->
                     <div class="card card-primary card-outline" id='vecxin'>
-                        <div class="card-body box-profile" style="background-color: #e8c744;">
-                            <div class="text-center"> 
+                        <div class="card-body box-profile" id="color-vacxin" style="background-color: #e8c744;">
+                            <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle" src="{%static 'img/cv.png'%}"
                                     alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center"><strong style="color: floralwhite;"> ĐÃ TIÊM  {{vx.muitiem}} VEC XIN </strong></h3>
+                            <h3 class="profile-username text-center"><strong style="color: floralwhite;"></strong> ĐÃ TIÊM
+                                    {{vx.muitiem}} VẮC XIN </strong></h3>
 
-                            
+
 
                             <ul class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item">
-                                   <img src="{{vx.qrcode_vecxin.url }}" />
+                                <li class="list-group-item"  >
+                                    <div class="text-center" id="color-vecxin">
+                                        <img src="{{vx.qrcode_vecxin.url }}" class="rounded img-thumbnail" />
+                                    </div>
                                 </li>
-                               
+
                             </ul>
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                   <p style="text-align: center; color: indigo;">Ngày Tiêm Gần Nhất :{{vx.ngaytiemgannhat|date:"d - m - y"}}</p>
+                                    <p style="text-align: center; color: indigo;">Ngày Tiêm Gần Nhất
+                                        :{{vx.ngaytiemgannhat|date:"d - m - y"}}</p>
                                 </li>
-                               
+
                             </ul>
                             {% if vx == None %}
-                            <a onclick="taoqrvecxin()" class="btn btn-primary btn-block"><b>Nhập QR VÉC XIN </b></a>
-                            
-                            {%else%}    
-                            <a onclick="loadqrvecxin()" class="btn btn-info btn-block"><b>Cập nhật QR VÉC XIN </b></a>
+                            <a onclick="taoqrvecxin()" class="btn btn-primary btn-block"><b>Nhập QR VẮC XIN </b></a>
+
+                            {%else%}
+                            <a onclick="loadqrvecxin()" class="btn btn-info btn-block"><b>Cập nhật QR VẮC XIN </b></a>
                             {%endif%}
                         </div>
-                        
+                        <script>
+                            $(document).ready(function () {
+                                
+                                var muitiem = "{{vx.muitiem}}"
+                            
+                                if (muitiem == 1) {
+                                    $('#color-vacxin').css("background-color", "#e8c744");
+                                }
+                                if (muitiem == 2) {
+                                    $('#color-vacxin').css("background-color", "#3d8b52");
+                                }
+                            });
+                        </script>
+
                         <!-- /.card-body -->
                     </div>
                     <div id="loadqrcode">
@@ -174,212 +305,7 @@
                     <!--  -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-9">
-                    <div id="loadprofile">
 
-                    </div>
-
-                    <script>
-                        function loadformavatar() {
-                            $.ajax({
-                                url: "{% url 'load-avatar' %}",
-                                data: {
-
-                                    'idnv': '{{nv.id}}',
-                                    
-                                },
-                                success: function (data) {
-                                    $("#loadprofile").html(data);
-
-                                }
-
-                            });                        
-                     }
-                     function loadqrvecxin() {
-                        
-                            $.ajax({
-                                url: "{% url 'load-qr-code-vecxin' %}",
-                                data: {
-
-                                    'idnv': '{{nv.id}}',
-                                    
-                                },
-                                success: function (data) {
-                                    $("#loadqrcode").html(data);
-
-                                }
-
-                            });                        
-                     }
-                     function taoqrvecxin() {
-                        
-                        $.ajax({
-                            url: "{% url 'tao-qr-code-vecxin' %}",
-                            
-                            success: function (data) {
-                                $("#loadqrcode").html(data);
-
-                            }
-
-                        });                        
-                 }
-                    
-                    
-                </script>
-                    <div class="card">
-
-
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link " href="#activity" data-toggle="tab">
-                                        Công - Lương - Thưởng </a></li>
-
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Bảo Hiểm
-                                    </a></li>
-                                <li class="nav-item"><a class="nav-link" href="#motacv" data-toggle="tab">Mô Tả CV
-                                    </a></li>
-                                <li class="nav-item"><a class="nav-link" href="#quytrinhcongty" data-toggle="tab">Quy
-                                        Trình
-                                    </a></li>
-                                <li class="nav-item"><a class="nav-link" href="#quidinhdinhcong" data-toggle="tab">Quy
-                                        Định - chế độ
-                                    </a></li>
-                                <li class="nav-item"><a class="nav-link active" href="#thongbao" data-toggle="tab">Thông
-                                        Báo
-                                        CT</a></li>
-                                <li class="nav-item"><a class="nav-link " href="#thongbaopb" data-toggle="tab">Thông Báo
-                                        PB
-                                    </a></li>
-                            </ul>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class=" tab-pane" id="activity">
-
-
-                                    <section>
-                                        <div class="card-header p-2">
-                                            <ul class="nav nav-pills">
-                                                <li class="nav-item  "><a class="nav-link  " href="#cong"
-                                                        data-toggle="tab">BẢN CÔNG </a></li>
-                                                <li class="nav-item active "><a class="nav-link  active" href="#luong"
-                                                        data-toggle="tab">PHIẾU LƯƠNG </a></li>
-                                                <li class="nav-item  "><a class="nav-link  " href="#luongtn"
-                                                        data-toggle="tab">LƯƠNG THÂM NIÊN </a></li>
-                                                <li class="nav-item"><a class="nav-link " href="#lthuongp"
-                                                        data-toggle="tab">THƯỞNG THEO PHÒNG </a></li>
-                                                <li class="nav-item"><a class="nav-link " href="#lthuongn"
-                                                        data-toggle="tab">THƯỞNG THEO NĂM </a></li>
-
-                                            </ul>
-                                        </div>
-
-                                        <div class="tab-content">
-                                            <div class=" tab-pane " id="cong">
-                                                {%include 'nhanvien/include/bangcong.html'%}
-                                            </div>
-                                            <div class=" tab-pane active actives" id="luong">
-                                                {%include 'nhanvien/include/phieuluong.html'%}
-                                            </div>
-                                            <!-- lương thâm niên  -->
-                                            <div class=" tab-pane" id="luongtn">
-                                                {% include 'nhanvien/include/luongthamnien.html' %}
-                                            </div>
-                                            <!-- luong tham niên  -->
-                                            <div class=" tab-pane" id="lthuongp">
-                                                {%include 'nhanvien/include/thuongphongban.html'%}
-                                            </div>
-                                            <!--  -->
-                                            <div class=" tab-pane" id="lthuongn">
-                                                {%include 'nhanvien/include/thuongnam.html'%}
-                                            </div>
-                                            <!--  -->
-                                        </div>
-                                    </section>
-
-
-                                </div>
-                                <!-- /.tab-pane -->
-
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="timeline">
-
-                                    <div class="card-header p-2">
-
-                                        <ul class="nav nav-pills">
-                                            <li class="nav-item active "><a class="nav-link  active" href="#bhxh"
-                                                    data-toggle="tab">BẢO HIỂM XÃ HỘI </a></li>
-                                            <li class="nav-item"><a class="nav-link " href="#bhyt" data-toggle="tab">BẢO
-                                                    HIỂM Y TẾ </a></li>
-                                            <li class="nav-item"><a class="nav-link " href="#bh24h"
-                                                    data-toggle="tab">BẢO HIỂM 24H </a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="tab-content">
-                                        <br>
-                                        {% include 'nhanvien/include/bhxh.html' %}
-
-                                        <!-- Bảo Hiểm Xã hội  -->
-                                    </div>
-
-                                    <!-- ------------------------------------------------------------------------------------------------------ -->
-
-                                    <div class=" tab-pane" id="bhyt">
-                                        <!-- Bảo Hiểm Y tế  -->
-                                        {%include 'nhanvien/include/bhyt.html'%}
-                                        <!-- Bảo Hiểm Y tế  -->
-
-                                    </div>
-                                    <div class=" tab-pane" id="bh24h">
-                                        <!-- Bảo Hiểm 24H -->
-                                        {%include 'nhanvien/include/bh24h.html' %}
-
-                                        <!-- Bảo Hiểm 24H  -->
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- /.tab-pane -->
-                            <div class="tab-pane" id="motacv">
-                                <!-- quy trình  -->
-                                {%include 'nhanvien/include/motacongviec.html'%}
-                                <!--  -->
-                            </div>
-                            <div class="tab-pane" id="quytrinhcongty">
-                                <!-- quy trình  -->
-
-                                {%include 'nhanvien/include/quytrinh.html'%}
-                                <!-- quy trình  -->
-                            </div>
-                            <!-- -------------------------------- -->
-                            <div class="tab-pane" id="quidinhdinhcong">
-                                <!--  -->
-                                {%include 'nhanvien/include/quydinhchedo.html' %}
-
-                                <!--  -->
-
-                            </div>
-
-                            <div class="active tab-pane" id="thongbao">
-
-                                {%include 'nhanvien/include/thongbaocongty.html'%}
-                            </div>
-                            <!-- /.tab-pane -->
-
-                            <!-- thong báo phòng ban  -->
-                            <div class=" tab-pane" id="thongbaopb">
-
-                                {% include 'nhanvien/include/thongbaophongban.html' %}
-
-                            </div>
-                            <!-- /thong báo  -->
-                        </div>
-                        <!-- /.tab-content -->
-                    </div>
-                    <!-- /.card-body -->
-                </div>
                 <!-- /.card -->
             </div>
             <!-- /.col -->
@@ -390,6 +316,9 @@
 </section>
 <!-- /.content -->
 </div>
+
+
+
 {%endblock%}
 
 {%block script-danhba%}

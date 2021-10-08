@@ -10,15 +10,21 @@ def Dexuat_lq(request):
     user = request.user.is_authenticated
     if user :
         dexuat =  Dexuat.objects.filter(Q(trangthaiduyet_tp=False)|Q(trangthaiduyet_sep=False),tinhtranghuy=False)
-        nhanvien = Nhanvien.objects.get(username = request.user)
-        id = nhanvien.id
+        try:
+            nhanvien = Nhanvien.objects.get(username = request.user)
+        except Nhanvien.DoesNotExist:
+            nhanvien =None
+        if nhanvien:    
+            id = nhanvien.id
         dem_dx = 0
         for item in dexuat :
             nhanviencc = item.nhanviencc
-            for key ,value in nhanviencc:
-                if str(key) == str(id):
-                    dem_dx+=1
-
+            if nhanviencc:
+                for key ,value in nhanviencc:
+                    if str(key) == str(id):
+                        dem_dx+=1
+            else:
+                dem_dx =0
         context={
                 'cd':int(dem_dx),
                 }
@@ -250,7 +256,7 @@ def sep(request):
         tq  =  False 
         user = request.user
         nv = Nhanvien.objects.get(username = user)
-        pq = Phanquyen.objects.all()
+        
         if nv:
             cv = Chucvu_Congviec.objects.get(nhanvien=nv)
             if cv:
@@ -267,7 +273,7 @@ def sep(request):
                             'tp':tp,
                             'ql':ql,
                             'tq':tq,
-                            'pq':pq
+                           
                          }
             else:
                 context={
@@ -486,5 +492,25 @@ def giaichi_chuaduyet(request):
 
 
 
+def xinphep(request):
+    usercheck = request.user.is_authenticated
+    if usercheck:
+        nhanvien = Nhanvien.objects.get(username = request.user)
+        xp_cd_tp = Xinphep.objects.filter(phongban=nhanvien.phongban,tp_duyet=False,huy=False)
+        dem=0
+        if xp_cd_tp:
+            for item in xp_cd_tp:
+                dem += 1
 
-    
+            context = {
+                'xp_tp_cd':dem,
+                    }
+        else:
+            context = {
+                 'xp_tp_cd':0,
+            }
+    else:
+        context = {
+                 'xp_tp_cd':0,
+            }
+    return {'xp':context}

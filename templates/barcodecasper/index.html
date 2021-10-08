@@ -1,0 +1,94 @@
+{% extends 'base.html'%}
+{%load static%}
+
+{%block quetbarcode %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <br>
+            {%include 'barcodecasper/header.html'%}
+           <h1 style="color: green;"> BARCODE CASPER ĐẦU VÀO </h1>  
+           {%for message in messages%}
+      {% if message %}
+      <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h5><i class="icon fas fa-check"></i> Thông Báo !</h5>
+          {{ message }}
+        </div>
+     {%endif%}
+      {%endfor%}
+        </div>
+    </section>
+<section class="content">
+    <div class="container-fluid">
+       <div class="text-center"> <br>
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <br>
+            <div class="input_fields_wrap">
+            </div>
+            <input type="text" id="seri" name="mytextS[]" class="form-control" placeholder="Nhập số Serial Casper ">
+            <br>
+             
+            <input class="btn btn-success "  type="Submit" id="luu" value="Lưu Barcode">
+        </form>
+        </div>
+
+
+       
+       
+           
+        <script>
+            $(document).ready(function() {
+                $("#seri").focus();
+                var max_fields      = 1000; //maximum input boxes allowed
+                var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+                var data = $("#seri").val() 
+                
+                var x = 0; //initlal text box count
+               
+                $("#seri").keyup(function(e){ //on add input button click
+                    if(event.keyCode == 13)
+                    {
+                       
+                    var selectValue = $(this).val();
+                    e.preventDefault();
+                    
+                    if(x < max_fields){ //max input box allowed
+                        x++; //text box increment
+                        $(wrapper).append("<div><input type='text'  value='"+selectValue+"' data-order='"+x+"'  readonly  class='form-control' id='mytext[]' name='mytext[]'/>  <a href='#' class='remove_field btn-tool btn-danger'>Xóa dòng '"+x+"'  </a></div>"); //add input box
+                       
+                    }
+                    $("#seri").val("") 
+                    var n = $(document).height();
+                     $('html, body').animate({ scrollTop: n }, 50);
+                    
+                }
+                
+                });
+              
+               
+                $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+                    e.preventDefault(); $(this).parent('div').remove(); x--;
+                })
+            });
+
+            $('form').bind("keypress", function(e) {
+                if (e.keyCode == 13) {               
+                  e.preventDefault();
+                  return false;
+                }
+              });
+           
+           
+
+           
+        </script>
+    </div>
+</section>
+    
+</div>
+
+
+{% endblock %}

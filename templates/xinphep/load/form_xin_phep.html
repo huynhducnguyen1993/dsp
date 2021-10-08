@@ -1,89 +1,135 @@
 <div class="row">
-<div class="col-2">
+    <div class="col-1">
 
-</div>
-<div class="col-8">
-    <div class="card card-info">
-        <div class="card-header">
-            <h3 class="card-title">Đơn Xin Nghỉ Phép</h3>
-        </div>
-        <!-- /.card-header -->
-        <!-- form start -->
-        <form class="form-horizontal" method="POST" action ="{% url 'load-xin-phep'%}">
-            {% csrf_token %} 
-            <div class="card-body">
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">Tên Nhân Viên :</label>
-                    <div class="col-sm-9">
-                        <input type="text" readonly value="{{nhanvien.tennv}}" class="form-control" id="inputEmail3" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-3 col-form-label">Phòng Ban</label>
-                    <div class="col-sm-9">
-                        <input type="text" readonly class="form-control" value="{{nhanvien.phongban}}" id="inputPassword3" placeholder="Password">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="ngaynghi" class="col-sm-3 col-form-label">Ngày Nghỉ</label>
-                    <div class="col-sm-9">
-                        <input type="date"  name="ngaynghi" class="form-control"  id="ngaynghi" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="ngaylamlai" class="col-sm-3 col-form-label">Ngày Làm Lại :</label>
-                    <div class="col-sm-9">
-                        <input type="date" name="ngaylamlai" class="form-control"  id="ngaylamlai" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="lydo" class="col-sm-3 col-form-label">Lý Do Xin Nghỉ :</label>
-                    <div class="col-sm-9">
-                        <textarea  class="form-control" placeholder="Lý do xin nghỉ" name="lydo" id="lydo" ></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="guiduyet" class="col-sm-3 col-form-label">Gửi Duyệt :</label>
-                    <div class="col-sm-9">
-                        <select  class="form-control"  id="guiduyet" >
-                            <option value="1"> Gửi Trưởng Phòng Duyệt </option>
-                            <option value="2"> Gửi Sếp Duyệt </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-                
-                <a onclick="guixinphep()"  class="btn btn-primary float-right">Gửi </a>
-            </div>
-            <!-- /.card-footer -->
-        </form>
     </div>
-    
-</div>
-<div class="col-2">
+    <div class="col-10" id="form-xnp">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">Đơn Xin Nghỉ Phép</h3>
+                <div class="card-tools">
+                   
+                    <button type="button" id = "close" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="POST" action="{% url 'load-xin-phep'%}">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Tên Nhân Viên :</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly value="{{nhanvien.tennv}}" class="form-control"
+                                id="inputEmail3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Phòng Ban</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control" value="{{nhanvien.phongban}}"
+                                id="inputPassword3" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ngaynghi" class="col-sm-3 col-form-label">Ngày Nghỉ</label>
+                        <div class="col-sm-9">
+                            <input type="date" name="ngaynghi" class="form-control" id="ngaynghi"  >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ngaylamlai" class="col-sm-3 col-form-label" >Ngày Làm Lại :</label>
+                        <div class="col-sm-9">
+                            <input type="date"  name="ngaylamlai"  class="form-control" id="ngaylamlai"  onchange="sosanhdate()">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="lydo" class="col-sm-3 col-form-label">Lý Do Xin Nghỉ :</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" placeholder="Lý do xin nghỉ" name="lydo"
+                                id="lydo"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="lienlac" class="col-sm-3 col-form-label">Liên Lạc Khẩn Cấp :</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" placeholder="Thông Tin liên lạc khẩn cấp" name="lienlac"
+                                id="lienlac"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="guiduyet" class="col-sm-3 col-form-label">Gửi Duyệt :</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="guiduyet">
+                                {%if cv.tp == False %}
+                                <option value="1"> Gửi Trưởng Phòng Duyệt </option>
+                                <option value="2"> Gửi Sếp Duyệt </option>
+                                {% else %}
+                                <option value="2"> Gửi Sếp Duyệt </option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
 
-</div>
+                    <a onclick="guixinphep()" class="btn btn-primary float-right">Gửi </a>
+                </div>
+                <!-- /.card-footer -->
+            </form>
+        </div>
+
+    </div>
+    <div class="col-1">
+
+    </div>
 </div>
 <script>
-    function guixinphep(){
+    function validateTwoDates() {
+        var x = $("#ngaynghi").val();
+        var y = $("#ngaylamlai").val();
+        var startDate =parseDate(x).getTime();
+        var endDate =parseDate(y).getTime();
+        return (endDate > startDate);
+    }
+
+    function sosanhdate() {
+        if (!validateTwoDates()) {
+            alert('date_to phải lớn hơn date_from');
+        }
+    }
+    $('#close').click(function(){
+        $("#button-xp").show()
+    });
+    function guixinphep() {
+        var x =$("#ngaynghi").val();
+        var y =$("#ngaylamlai").val();
+        
         $.ajax({
-            type:'POST',
-            url: "{% url 'load-xin-phep' %}",
-            data:{
-                'csrfmiddlewaretoken': $("input[name*='csrfmiddlewaretoken']").val(),
-                'ngaynghi':$('#ngaynghi').val(),
-                'ngaylamlai':$('#ngaylamlai').val(),
-                'lydo':$('#lydo').val(),
-                'guiduyet':$('#guiduyet').val(),
-            },
-            success: function (data) {
-                $("#form-xin-phep").html(data);
+                type: 'POST',
+                url: "{% url 'load-xin-phep' %}",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name*='csrfmiddlewaretoken']").val(),
+                    'ngaynghi': $('#ngaynghi').val(),
+                    'ngaylamlai': $('#ngaylamlai').val(),
+                    'lydo': $('#lydo').val(),
+                    'lienlac':$('#lienlac').val(),
+                    'guiduyet': $('#guiduyet').val(),
+                },
+                success: function (data) {
+                    $("#xin-phep").html(data);
 
-            }
+                }
 
-        });
+            });
+        
+        $("#form-xnp").hide()
+        $("#button-xp").show()
+     $("html, body").animate({ scrollTop: 0 }, "slow");
+        
+
 
     }
 </script>

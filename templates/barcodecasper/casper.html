@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+{%load static%}
+
+{%block barcode-casper%}
+
+<div class="content-wrapper">
+
+    <section class="content">
+        <div class="container-fluid">
+           {%include 'barcodecasper/header.html'%}
+        </div>
+    </section>
+    <section class="content">
+        <br>
+        <input type="date" id="date_" class="form-control" >
+        <br>
+        <div id="tb">
+
+        </div>
+    </section>
+
+</div>
+<script>
+    $(document).ready(function(){
+        var date = new Date()
+        var ngay = date.getDate()
+        var thang = date.getMonth()
+        var nam = date.getFullYear()
+        var dt =  1
+        $.ajax({
+            type:"GET",
+            url: "{% url 'load-barcode-casper' %}",
+            data: {
+
+                'date': dt,
+
+            },
+            success: function (data) {
+                $("#tb").html(data);
+
+            }
+
+        });
+    });
+</script>
+{%endblock%}

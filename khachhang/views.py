@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http.request import QueryDict
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
+from django.utils.html import strip_tags
 from django.views.generic import View
 from django.views import View
 from django.contrib import messages
@@ -21,20 +22,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from django.core.mail import send_mail
 from .forms import *
-
+from permistion.models import *
+from django.core import mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 class Create_khl(LoginRequiredMixin,View):
-    login_url="login/"
+    redirect_field_name = 'redirect_to'
     def get(self,request):
         usr = request.user
         if usr:
             nhanvien = Nhanvien.objects.get(username =request.user) 
-            nvcv  = Chucvu_Congviec.objects.get(nhanvien=nhanvien)
-            phongban = Phongban.objects.get(pk = nvcv.phongban.id)
+            
             form = Create_khang_hang_lon(instance = nhanvien)
             context= {
                 'nhanvien':nhanvien,
-                'phongban':phongban,
+                'phongban':nhanvien.phongban,
                 'form':form
             }
             return render(request,"khachhanglon/form_nhap_khach_hang_lon.html",context)
@@ -46,8 +49,7 @@ class Create_khl(LoginRequiredMixin,View):
         if request.POST:
             if usr:
                 nhanvien = Nhanvien.objects.get(username =request.user) 
-                nvcv  = Chucvu_Congviec.objects.get(nhanvien=nhanvien)
-                phongban = Phongban.objects.get(pk = nvcv.phongban.id)
+                
                 csrf = request.POST.get('csrfmiddlewaretoken')
                 
                 tinhtrang = request.POST.get('tinhtrang')
@@ -66,7 +68,7 @@ class Create_khl(LoginRequiredMixin,View):
                 form =  Khachhanglon.objects.create(
                     
                     nhanvien=nhanvien,
-                    phongban=phongban,
+                    phongban=nhanvien.phongban,
                     username=usr,
                     hangmuc=request.POST.get('hangmuc'),
                     baogia=bg,
@@ -80,19 +82,26 @@ class Create_khl(LoginRequiredMixin,View):
                     diachicongtrinh=request.POST.get("diachicongtrinh"),
 
                 )
+                context={
+                        'tennv':nhanvien.tennv,
+                        'tenkh':request.POST.get('tenkhachhang'),
+                        'diachikh':request.POST.get('diachikh'),
+                        'tenct':request.POST.get('tencongtrinh'),
+                        'noidung':request.POST.get('noidung')
+                }
                 
+                subject  =  nhanvien.tennv + "   "  +'  CẬP NHẬT KHÁCH HÀNG LỚN ' 
+                html_message  = render_to_string('khachhanglon/content_mail.html', context)
+                plain_message = strip_tags(html_message)
+                from_email = 'Đông Sapa  CNKHL   <nguyenhuynh@dongsapa.com.vn>'
+                to = ['longvo@dongsapa.com.vn','trungtran@dongsapa.com.vn',]
                 if form:
                     form.save()
                     
-                    messages.success(request,str(request.user.username)+ "-- Đã Cập Nhật khách hàng "+" - -"+request.POST.get('tenkhachhang')+"Thành Công")
+                    messages.success(request,str(request.user.username)+ "-- Đã Cập Nhật khách hàng "+" - -"+request.POST.get('tenkhachhang')+"  Thành Công")
                     
-                    send_mail(
-                        nhanvien.tennv + ' Cập Nhật Khách Hàng Lớn' ,
-                        "Dear all \n" + request.POST.get('tencongtrinh')+"\n" + request.POST.get('noidung') +" <a href='#'> Link Xem</a>",
-                        '',
-                        ['cdldongsapa.@gmail.com'],
+                    mail.send_mail(subject, plain_message, from_email, to, html_message=html_message)
 
-                    )
                     return redirect("danh-sach-khach-hang-lon")
                 
                 else:
@@ -105,7 +114,7 @@ class Create_khl(LoginRequiredMixin,View):
            return HttpResponse("Lỗi Không Mong Muốn") 
 
 class Danhsach_khachhanglon(LoginRequiredMixin,View):
-    login_url = "login/"
+    redirect_field_name = 'redirect_to'
     def get(self,request):
         usr = request.user 
         if usr:
@@ -118,7 +127,7 @@ class Danhsach_khachhanglon(LoginRequiredMixin,View):
             return HttpResponse("Lỗi Không Mong Muốn")
 
 class View_khachhanglon(LoginRequiredMixin,View):
-    login_url = "login/"
+    redirect_field_name = 'redirect_to'
     def get(self,request,khachhang_id):
         usr = request.user 
         if usr:
@@ -132,7 +141,7 @@ class View_khachhanglon(LoginRequiredMixin,View):
 
 
 class Edit_khachhanglon(LoginRequiredMixin,View):
-    login_url = "login/"
+    redirect_field_name = 'redirect_to'
     def get(self,request,khachhang_id):
         usr = request.user 
         if usr:

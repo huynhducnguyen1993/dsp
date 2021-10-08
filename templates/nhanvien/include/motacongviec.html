@@ -1,8 +1,5 @@
-<!-- --------------------------------------- -->
-
-
 <div class="row">
-    <div class="col-5 col-sm-3">
+    <div class="col-5 col-sm-2">
         <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="vert-tabs-home1-tab" data-toggle="pill" href="#vert-tabs-home11" role="tab"
                 aria-controls="vert-tabs-home" aria-selected="true">Mô Tả </a>
@@ -19,7 +16,7 @@
 
         </div>
     </div>
-    <div class="col-7 col-sm-9">
+    <div class="col-7 col-sm-10">
         <div class="tab-content" id="vert-tabs-tabContent">
             <div class="tab-pane text-left fade show active" id="vert-tabs-home11" role="tabpanel"
                 aria-labelledby="vert-tabs-home-tab">
@@ -28,75 +25,55 @@
                 <br><br>
                 <!--  -->
                 {% for item in mtcv %}
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <h3 class="timeline-header"><a href="#">{{item.tieude}}
-                                    </a></h3>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="timeline-body">
-                                    <div id="readmoremtcv-{{item.id}}">
-                                        {{item.motacongviec|safe|truncatechars:200}}
+                <div class="card">
+                    <div class="card-header  card-primary p-2">
+
+
+                        <strong> {{item.tieude}}</strong>
+                        <span class="time"><i class="far ion-social-octocat"></i>
+
+                            -- Ngày Đăng : {{item.created_at|date:'d - m - y'}}
+                        </span>
+                    </div>
+                    {%if item.file %}
+                    <div class="card-body">
+
+
+                        <a href="{{item.file.url}}" target="_blank"> <strong
+                                style="color: crimson;border: cyan;">***File Nội Dung
+                                Đính Kèm</strong></a>
+
+
+                    </div>
+                    {%endif%}
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                            data-target=".bd-example-modal-lgmtcv{{item.id}}">xem chi tiết</button>
+
+                        <div class="modal fade bd-example-modal-lgmtcv{{item.id}}" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">{{item.tieude}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div id="readfullmtcv-{{item.id}}">
+                                    <div class="modal-body">
                                         {{item.motacongviec|safe}}
                                     </div>
-
-
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Đóng
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-primary">Đã Xem</button>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="timeline-footer">
-                                    <a onclick="xemchitietmtcv()" id="xemchitietmtcv-{{item.id}}"
-                                        class="btn btn-primary btn-sm">Xem chi
-                                        tiết </a>
-                                    <a onclick="thugonmtcv()" id="thugonmtcv-{{item.id}}"
-                                        class="btn btn-dark btn-sm">Thu
-                                        Gọn
-                                    </a>
-                                </div>
-
-
-
-
-
-                            </td>
-                        </tr>
-                    </tbody>
-
-                </table>
-
-                <script>
-                    $(document).ready(function () {
-                        $('#readfullmtcv-{{item.id}}').hide()
-                        $('#thugonmtcv-{{item.id}}').hide()
-                    });
-
-                    function xemchitietmtcv() {
-                        $('#readmoremtcv-{{item.id}}').hide()
-                        $('#readfullmtcv-{{item.id}}').show()
-                        $('#xemchitietmtcv-{{item.id}}').hide()
-                        $('#thugonmtcv-{{item.id}}').show()
-
-
-                    }
-
-                    function thugonmtcv() {
-                        $('#readmoremtcv-{{item.id}}').show()
-                        $('#readfullmtcv-{{item.id}}').hide()
-                        $('#xemchitietmtcv-{{item.id}}').show()
-                        $('#thugonmtcv-{{item.id}}').hide()
-
-
-                    }
-                </script>
-                <!--  -->
-                <br>
+                </div>
                 {%endfor%}
 
 
@@ -109,74 +86,61 @@
 
             <div class="tab-pane fade" id="vert-tabs-profile11" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                 <!--  -->
+                {% for item in ktn %}
+                <div class="card">
+                    <div class="card-header  card-primary p-2">
 
 
+                        <strong> {{item.tieude}}</strong>
+                        <span class="time"><i class="far ion-social-octocat"></i>
+
+                            -- Ngày Đăng : {{item.created_at|date:'d - m - y'}}
+                        </span>
+                    </div>
+                    {%if item.file %}
+                    <div class="card-body">
 
 
-                <div class="timeline  timeline-inverse">
-                    <!-- timeline time label -->
-                    {%for item in ktn %}
-                    <div>
+                        <a href="{{item.file.url}}" target="_blank"> <strong
+                                style="color: crimson;border: cyan;">***File Nội Dung
+                                Đính Kèm</strong></a>
 
-
-                        <div class="timeline-item">
-                            <span class="time"><i class="far ion-social-octocat"></i>
-
-                                {{item.created_at|date:'d - m - y'}}
-                            </span>
-
-                            <h3 class="timeline-header"><a href="#">{{item.tieude}}
-                                </a></h3>
-
-                            <div class="timeline-body">
-                                <div id="readmorecdpb-{{item.id}}">
-                                    {{item.noidung|safe|truncatechars:200}}
-                                </div>
-                                <div id="readfullktn-{{item.id}}">
-                                    {{item.noidung|safe}}
-                                </div>
-
-
-                            </div>
-
-                            <div class="timeline-footer">
-                                <a onclick="xemchitietktn()" id="xemchitietktn-{{item.id}}"
-                                    class="btn btn-primary btn-sm">Xem chi tiết </a>
-                                <a onclick="thugonktn()" id="thugonktn-{{item.id}}" class="btn btn-dark btn-sm">Thu
-                                    Gọn
-                                </a>
-                            </div>
-                        </div>
 
                     </div>
+                    {%endif%}
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                            data-target=".bd-example-modal-lgktn{{item.id}}">xem chi tiết</button>
 
-                    <script>
-                        $(document).ready(function () {
-                            $('#readfullktn-{{item.id}}').hide()
-                            $('#thugonktn-{{item.id}}').hide()
-                        });
+                        <div class="modal fade bd-example-modal-lgktn{{item.id}}" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">{{item.tieude}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{item.noidung|safe}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Đóng
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-primary">Đã Xem</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        function xemchitietktn() {
-                            $('#readmorektn-{{item.id}}').hide()
-                            $('#readfullktn-{{item.id}}').show()
-                            $('#xemchitietktn-{{item.id}}').hide()
-                            $('#thugonktn-{{item.id}}').show()
-
-
-                        }
-
-                        function thugonktn() {
-                            $('#readmorektn-{{item.id}}').show()
-                            $('#readfullktn-{{item.id}}').hide()
-                            $('#xemchitietktn-{{item.id}}').show()
-                            $('#thugonktn-{{item.id}}').hide()
-
-
-                        }
-                    </script>
-
-                    {%endfor%}
                 </div>
+                {%endfor%}
+
+
+
+
 
 
 
@@ -194,13 +158,16 @@
                             <button type="button" class="btn btn-lg btn-tool btn-primary" data-card-widget="collapse"><i
                                     class="fas fa-plus"></i>Click
                             </button>
+                            
                         </div>
                         <!-- /.card-tools -->
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                       
                         <H3>Trả Lời :</H3> <br>
                         {{item.traloi|safe}}
+                        
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -225,8 +192,8 @@
                         {%endfor %}
                     </select>
                 </div>
-                <div class="form-group">
-                    <a onclick="phongbanhoidap()" class="btn btn-dark "> Gửi Câu Hỏi </a>
+                <div class="form-group text-right">
+                     <a onclick="phongbanhoidap()" class="btn btn-info"> Gửi Câu Hỏi </a>
                 </div>
                 <br>
                 <div id="loadhoidap">
@@ -238,9 +205,9 @@
                     {%if item.traloi == None%}
                     <div class="card collapsed-card ">
                         <div class="card-header">
-                            <h3 class="card-title" style="color: brown;">{{item.cauhoi}} - 
-                                <span
-                                    class="btn btn-sm btn-secondary"> {{item.created_at|date:'d - m -y'}}</span></h3>
+                            <h3 class="card-title" style="color: brown;">{{item.cauhoi}} -
+                                <span class="btn btn-sm btn-secondary"> {{item.created_at|date:'d - m -y'}}</span>
+                            </h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -262,7 +229,7 @@
                     <div class="card collapsed-card ">
                         <div class="card-header">
                             <h3 class="card-title" style="color: olivedrab;">{{item.cauhoi}} - <span
-                                    class="btn btn-sm btn-success">-- Đã Trả Lời Vào - {{item.created_at|date:'d - m -y'}}</span></h3>
+                class="btn btn-sm btn-success">-- Đã Trả Lời Vào - {{item.created_at|date:'d - m - y'}}</span></h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">

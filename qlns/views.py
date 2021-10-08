@@ -9,9 +9,8 @@ from django.contrib import messages
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import NhanvienSerializer
-from django.http import HttpResponse
-import json
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse,JsonResponse
+
 import datetime
 from django.contrib.auth.models import Permission
 from django.db.models import Q
@@ -31,7 +30,17 @@ from .forms import *
 from cdqttb.models import *
 from cdqttb.forms import *
 # Create your views here.
+from django.views.decorators.http import require_GET,require_POST
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 
+import json
+
+class home(View):
+    def get(self,request):
+        
+        return render(request,'home')
 
 class Index(LoginRequiredMixin, View):
     login_url = '/login/'
@@ -41,9 +50,9 @@ class Index(LoginRequiredMixin, View):
        
         return render(request, 'index.html')
 
-
 class Login(View):
-   
+    redirect_field_name = 'redirect_to'
+    
     def get(self, request):
         return render(request, 'login.html')
 
@@ -55,6 +64,7 @@ class Login(View):
             login(request, user=user)
             return redirect('index')
         else:
+            messages.error(request,"Tài Khoản Hoặc Mật Khẩu Không Chính Xác ! :)")
             return render(request, 'login.html')
 
 
@@ -140,11 +150,199 @@ class Profile(LoginRequiredMixin, View):
             'vx':tiemvecxin,
         }
         return render(request, 'nhanvien/profile.html', context)
-class Viewprofile(View):
+
+class Luongthuongcong(LoginRequiredMixin, View):
     redirect_field_name = 'redirect_to'
+    def get(self, request):
+        user = request.user
+        id = user.id
+        nv = Nhanvien.objects.get(username=id)
+        idnv = nv.id
+        nv = Nhanvien.objects.get(pk=idnv)
+        phongban = Phongban.objects.all().exclude(tenpb='SEP')
+        nvcv = Chucvu_Congviec.objects.get(nhanvien=nv)
+        tbct = Thongbao.objects.filter(huy=False,hienthi=True).order_by('-created_at') 
+        tbpb = Thongbao.objects.filter(huy=False,hienthi=True,phongban = nv.phongban).order_by('-created_at') 
+        qd = Quydinhcongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        qdpb = Quydinhphongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+        cdct = Chedocongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        cdpb = Chedophongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+        mtcv = Motacongviec.objects.filter(phongban =nv.phongban,nhanvien=nv).order_by('-created_at')
+        ktn = Kienthucnen.objects.filter(phongban =nv.phongban).order_by('-created_at')
+        chtg = Cauhoithuonggap.objects.all().order_by("-created_at")
+        hd =Hoidap.objects.filter(idnhanvienhoi=nv.id).order_by('-updated_at')
+        try:
+            tiemvecxin =Tiemvecxincovid.objects.get(nhanvien=nv) 
+        except Tiemvecxincovid.DoesNotExist:
+
+            tiemvecxin = None 
+        try:
+            bhxh = Baohiemxahoi.objects.get(nhanvien=nv)
+        except Baohiemxahoi.DoesNotExist:
+            bhxh= None
+        try:
+            bhyt = Baohiemyte.objects.get(nhanvien=nv)
+        except Baohiemyte.DoesNotExist:
+            bhyt= None
+        
+        context = {
+
+            'nv': nv,
+            'id': id,
+            'phongban':phongban,
+            'nvcv': nvcv,
+            'tbct':tbct,
+            'tbpb':tbpb,
+            'qd':qd,
+            'qdpb':qdpb,
+            'cdct':cdct,
+            'cdpb':cdpb,
+            'mtcv':mtcv,
+            'ktn':ktn,
+            'chtg':chtg,
+            'hd':hd,
+            'vx':tiemvecxin,
+            'bhxh':bhxh,
+            'bhyt':bhyt,
+        }
+        return render(request, 'nhanvien/congluongthuong/index.html', context)
+
+
+class Thongbaodsp(LoginRequiredMixin, View):
+    redirect_field_name = 'redirect_to'
+    def get(self, request):
+        user = request.user
+        id = user.id
+        nv = Nhanvien.objects.get(username=id)
+        idnv = nv.id
+        nv = Nhanvien.objects.get(pk=idnv)
+        phongban = Phongban.objects.all().exclude(tenpb='SEP')
+        nvcv = Chucvu_Congviec.objects.get(nhanvien=nv)
+        tbct = Thongbao.objects.filter(huy=False,hienthi=True).order_by('-created_at') 
+        tbpb = Thongbao.objects.filter(huy=False,hienthi=True,phongban = nv.phongban).order_by('-created_at') 
+        qd = Quydinhcongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        qdpb = Quydinhphongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+        cdct = Chedocongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        cdpb = Chedophongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+        mtcv = Motacongviec.objects.filter(phongban =nv.phongban,nhanvien=nv).order_by('-created_at')
+        ktn = Kienthucnen.objects.filter(phongban =nv.phongban).order_by('-created_at')
+        chtg = Cauhoithuonggap.objects.all().order_by("-created_at")
+        hd =Hoidap.objects.filter(idnhanvienhoi=nv.id).order_by('-updated_at')
+        try:
+            tiemvecxin =Tiemvecxincovid.objects.get(nhanvien=nv) 
+        except Tiemvecxincovid.DoesNotExist:
+
+            tiemvecxin = None 
+
+        
+        context = {
+
+            'nv': nv,
+            'id': id,
+            'phongban':phongban,
+            'nvcv': nvcv,
+            'tbct':tbct,
+            'tbpb':tbpb,
+            'qd':qd,
+            'qdpb':qdpb,
+            'cdct':cdct,
+            'cdpb':cdpb,
+            'mtcv':mtcv,
+            'ktn':ktn,
+            'chtg':chtg,
+            'hd':hd,
+            'vx':tiemvecxin,
+        }
+        return render(request, 'nhanvien/thongbao/thongbao.html', context)
+
+class Quydinhcdsp(LoginRequiredMixin, View):
+    redirect_field_name = 'redirect_to'
+    def get(self, request):
+        user = request.user
+        id = user.id
+        nv = Nhanvien.objects.get(username=id)
+        idnv = nv.id
+        nv = Nhanvien.objects.get(pk=idnv)
+        phongban = Phongban.objects.all().exclude(tenpb='SEP')
+        nvcv = Chucvu_Congviec.objects.get(nhanvien=nv)
+        tbct = Thongbao.objects.filter(huy=False,hienthi=True).order_by('-created_at') 
+        tbpb = Thongbao.objects.filter(huy=False,hienthi=True,phongban = nv.phongban).order_by('-created_at') 
+        qd = Quydinhcongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        qdpb = Quydinhphongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+        cdct = Chedocongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        cdpb = Chedophongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+        mtcv = Motacongviec.objects.filter(phongban =nv.phongban,nhanvien=nv).order_by('-created_at')
+        ktn = Kienthucnen.objects.filter(phongban =nv.phongban).order_by('-created_at')
+        chtg = Cauhoithuonggap.objects.all().order_by("-created_at")
+        hd =Hoidap.objects.filter(idnhanvienhoi=nv.id).order_by('-updated_at')
+        try:
+            tiemvecxin =Tiemvecxincovid.objects.get(nhanvien=nv) 
+        except Tiemvecxincovid.DoesNotExist:
+
+            tiemvecxin = None 
+
+        
+        context = {
+
+            'nv': nv,
+            'id': id,
+            'phongban':phongban,
+            'nvcv': nvcv,
+            'tbct':tbct,
+            'tbpb':tbpb,
+            'qd':qd,
+            'qdpb':qdpb,
+            'cdct':cdct,
+            'cdpb':cdpb,
+            'mtcv':mtcv,
+            'ktn':ktn,
+            'chtg':chtg,
+            'hd':hd,
+            'vx':tiemvecxin,
+        }
+        return render(request, 'nhanvien/quydinhchedo/quydinh.html', context)
+
+class Chedodsp(LoginRequiredMixin, View):
+    redirect_field_name = 'redirect_to'
+    def get(self, request):
+        user = request.user
+        id = user.id
+        nv = Nhanvien.objects.get(username=id)
+        idnv = nv.id
+        nv = Nhanvien.objects.get(pk=idnv)
+        phongban = Phongban.objects.all().exclude(tenpb='SEP')
+        nvcv = Chucvu_Congviec.objects.get(nhanvien=nv)
+        cdct = Chedocongty.objects.filter(huy=False,hienthi=True).order_by('-created_at')
+        cdpb = Chedophongban.objects.filter(huy=False,hienthi=True,phongban=nv.phongban).order_by('-created_at')
+      
+       
+        context = {
+
+            'nv': nv,
+            'id': id,
+            'phongban':phongban,
+            'nvcv': nvcv,
+            'cdct':cdct,
+            'cdpb':cdpb,
+            
+        }
+        return render(request, 'nhanvien/quydinhchedo/chedo.html', context)
+
+class Quytrinh(LoginRequiredMixin, View):
+    redirect_field_name = 'redirect_to'
+    def get(self, request):
+       
+        return render(request, 'nhanvien/quydinhchedo/quytrinh.html',)
+
+
+class Viewprofile(View):
+    
     def get(self,request,nhanvien_id):
         nhanvien =Nhanvien.objects.get(pk=nhanvien_id)
-        tiemvecxin =Tiemvecxincovid.objects.get(nhanvien=nhanvien) 
+        try:
+            tiemvecxin =Tiemvecxincovid.objects.get(nhanvien=nhanvien) 
+        except Tiemvecxincovid.DoesNotExist:
+            tiemvecxin=None
         context={
             'nv':nhanvien,
             'vx':tiemvecxin,
@@ -233,7 +431,7 @@ class Danhba(LoginRequiredMixin, View):
     def get(self, request):
         nv = Nhanvien.objects.all().order_by('phongban')
         phongban = Phongban.objects.all()
-        nvpage = Paginator(nv, 9)
+        nvpage = Paginator(nv, 20)
         page_number = request.GET.get('page')
         page_obj = nvpage.get_page(page_number)
         context = {
@@ -1151,7 +1349,7 @@ class Giaichi_dx(LoginRequiredMixin, View):
         user = request.user
         gc = Dexuat.objects.get(pk=dexuat_id)
         if gc.username == user:
-            file = request.FILES['filegiaichi']
+           
             id_pb = request.POST.get('phongbanguiduyet')
             p = Phongban.objects.get(pk=id_pb)
             ghichu = request.POST.get('ghichu')
@@ -1184,7 +1382,7 @@ class Giaichi_dx(LoginRequiredMixin, View):
                     tieude=gc.tieude,
                     hangmuc=0,
                     ghichu=ghichu,
-                    filegiaichi=file,
+                  
                     tientamung=gc.tientamung,
                     tiengiaichi=tiengiaichi,
                     giaichithietbi=None,
@@ -1211,7 +1409,7 @@ class Giaichi_dx(LoginRequiredMixin, View):
                     tt5 = sl5*dg5
                     tiengiaichi = tt1+tt2+tt3+tt4+tt5
 
-                    file = request.FILES['filegiaichi']
+                    
                     u = User.objects.get(username=request.user)
                     id_pb = request.POST.get('phongbanguiduyet')
                     p = Phongban.objects.get(pk=id_pb)
@@ -1266,7 +1464,7 @@ class Giaichi_dx(LoginRequiredMixin, View):
                         noidungdexuat=gc.noidung,
                         tieude=gc.tieude,
                         ghichu=ghichu,
-                        filegiaichi=file,
+                       
                         tientamung=gc.tientamung,
                         tiengiaichi=tiengiaichi,
                         giaichihanghoa=None,
@@ -1291,7 +1489,7 @@ class Giaichi_dx(LoginRequiredMixin, View):
                     noidungdexuat=gc.noidung,
                     tieude=gc.tieude,
                     ghichu=ghichu,
-                    filegiaichi=file,
+                    
                     tientamung=gc.tientamung,
                     tiengiaichi=tiengiaichi,
                     giaichithietbi=None,
@@ -1338,7 +1536,7 @@ class Giaichihanghoa_moi(LoginRequiredMixin, View):
     def post(self, request):
 
         gc = None
-        file = request.FILES['filegiaichi']
+        
         u = User.objects.get(username=request.user)
         id_pb = request.POST.get('phongbanguiduyet')
         p = Phongban.objects.get(pk=id_pb)
@@ -1374,7 +1572,7 @@ class Giaichihanghoa_moi(LoginRequiredMixin, View):
             noidungdexuat=None,
             tieude=request.POST.get('tieude'),
             ghichu=ghichu,
-            filegiaichi=file,
+            
             tientamung=0,
             tiengiaichi=request.POST.get('tiengiaichi'),
 
@@ -1402,7 +1600,7 @@ class Giaichikhac_moi(LoginRequiredMixin, View):
 
     def post(self, request):
 
-        file = request.FILES['filegiaichi']
+       
         u = User.objects.get(username=request.user)
         id_pb = request.POST.get('phongbanguiduyet')
         p = Phongban.objects.get(pk=id_pb)
@@ -1436,7 +1634,7 @@ class Giaichikhac_moi(LoginRequiredMixin, View):
             noidungdexuat=None,
             tieude=request.POST.get('tieude'),
             ghichu=ghichu,
-            filegiaichi=file,
+            
             tientamung=0,
             tiengiaichi=request.POST.get('tiengiaichi'),
 
@@ -1481,7 +1679,7 @@ class Giaichithietbi_moi(LoginRequiredMixin, View):
             tt5 = sl5*dg5
             tiengiaichi = tt1+tt2+tt3+tt4+tt5
             gc = None
-            file = request.FILES['filegiaichi']
+            
             u = User.objects.get(username=request.user)
             id_pb = request.POST.get('phongbanguiduyet')
             p = Phongban.objects.get(pk=id_pb)
@@ -1534,7 +1732,7 @@ class Giaichithietbi_moi(LoginRequiredMixin, View):
                 noidungdexuat=".",
                 tieude=request.POST.get('tieude'),
                 ghichu=ghichu,
-                filegiaichi=file,
+               
                 tientamung=0,
                 tiengiaichi=tiengiaichi,
                 giaichihanghoa=None,
@@ -2093,7 +2291,7 @@ class Edit_giaichi(LoginRequiredMixin, View):
                     'ghichu': ghichu,
                     'giaichihanghoa': gc.giaichihanghoa,
                     'giaichikhac': gc.giaichikhac,
-                    'filegiaichi': request.POST.get('filegiaichi')
+                    
                 })
                 form = Form_edit_giai_chi(
                     querydict, request.FILES, instance=gc)
@@ -2118,7 +2316,7 @@ class Edit_giaichi(LoginRequiredMixin, View):
                     'ghichu': ghichu,
                     'giaichihanghoa': request.POST.get('giaichihanghoa'),
                     'giaichikhac': gc.giaichikhac,
-                    'filegiaichi': request.POST.get('filegiaichi')
+                   
                 })
                 form = Form_edit_giai_chi(
                     querydict, request.FILES, instance=gc)
@@ -2145,7 +2343,7 @@ class Edit_giaichi(LoginRequiredMixin, View):
                     'ghichu': ghichu,
                     'giaichihanghoa': gc.giaichihanghoa,
                     'giaichikhac': request.POST.get('giaichikhac'),
-                    'filegiaichi': request.POST.get('filegiaichi')
+                    
                 })
                 form = Form_edit_giai_chi(
                     querydict, request.FILES, instance=gc)

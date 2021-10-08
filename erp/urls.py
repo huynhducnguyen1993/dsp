@@ -14,13 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib.admin.sites import all_sites
+from BHcassper.views import BHcasper_views
 from athuvien.models import DanhmucCatalog
 from django.contrib import admin
 from django.views.static import serve 
 from django.urls import path,include
 from qlns.views import *
+from adatxe.views import *
 from qlns.views_xin_phep import *
 from khovan.views import *
+from BHcassper.views import *
 from cdqttb.views import *
 from khachhang.views import *
 from athuvien.views import *
@@ -33,8 +36,12 @@ from django.views.generic import TemplateView
 from qlns import views
 
 admin.site.index_title="Quản Trị Hệ Thống"
+
 urlpatterns = [
     path('admin/', admin.site.urls,name="admin"),
+
+    
+
     path('pdf/', include('mergepdf.urls')),
     path('tasks/', include('tasks.urls')),
     path('trinh-ky-hop-dong/', include('tkhd.urls',namespace='trinh-ky')),
@@ -46,10 +53,30 @@ urlpatterns = [
     path('accounts/login/', Login.as_view(),name='login'),
     path('login/', Login.as_view(),name='login'),
     path('logout',Logout.as_view(),name='logout'),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls')),#Quetqrcode
+    path('home/',home.as_view(),name='home'),
+    path('quet-qr/',Quetqrcode.as_view(),name='quet-qr'),
 
-    path('nhan-vien/xin-phep',Form_xin_phep.as_view(),name='xin-phep'),
+    path('quet-ma-code/',BHcasper_views.as_view(),name="quet-barcode"),
+    path('quet-ma-code-dau-ra/',BHcasper_out_views.as_view(),name="quet-barcode-out"),
+    path('load-barcode-casper',Loadlistbarcode.as_view(),name="load-barcode-casper"),
+    path('casper',Casper.as_view(),name="casper-chua-kich-hoat"),
+
+    path('nhan-vien/xin-nghi-phep',Form_xin_phep.as_view(),name='xin-phep'),
     path('ed5511ad61be3b785518eddc96e4bc3f',Loadxinphep.as_view(),name="load-xin-phep"),
+    path('load-xin-phep-auto',Loadxinphep_auto.as_view(),name="load-xin-phep-auto"),
+    path('load-xin-phep-auto-tp',Loadxinphep_auto_tp.as_view(),name="load-xin-phep-auto-tp"),
+    path('load-xin-phep-auto-sep',Loadxinphep_auto_sep.as_view(),name="load-xin-phep-auto-sep"),
+    path('view-xin-phep',Viewxinphep.as_view(),name="load-view-xin-phep"),#load-delete-xin-phep
+    path('delete-xin-phep',Deletexinphep.as_view(),name="load-delete-xin-phep"),
+    path('phe-duyet-xin-phep-tp',Duyettruongphong.as_view(),name="xin-phep-duyet-tp"),
+    path('phe-duyet-xin-phep-sep',Duyetsep.as_view(),name="xin-phep-duyet-sep"),
+    path('duyet-xin-phep-tp',Pheduyetxinphep_tp.as_view(),name="duyet-xp-tp"),
+    path('duyet-xin-phep-sep',Pheduyetxinphep_sep.as_view(),name="duyet-xp-sep"),
+    #
+    path('nhan-vien/xin-nghi-phep-da-duyet',Xinphepdaduyet.as_view(),name='xin-nghi-phep-da-duyet'),
+    path('xin-nghi-phep-da-duyet',loadphepdaduyet.as_view(),name='load-xin-nghi-phep-da-duyet'),
+
     path('nhan-vien/zoom/' ,Zoom.as_view(),name='zoom' ),
     path('nhan-vien/profile/change-avatar',views.Change_avatar,name='change-avatar'),
     path('ed5511ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f11ad61be3b785518eddc96e4bc3f-ed5511ad61be3b785518eddc96e4bc3f<int:nhanvien_id>',Viewprofile.as_view(),name='nhan-vien-qr'),
@@ -59,10 +86,15 @@ urlpatterns = [
     path('nhan-vien/thu-vien/catalog',Catolog.as_view(),name='view-catalog'),
     path('get-nhan-vien/', Getnhanvien.as_view(),name='getnhanvien'),
     path('profile/',Profile.as_view(),name='profile'),
-    
+    path('nhan-vien/quy-trinh/',Quytrinh.as_view(),name='quy-trinh'),
     path('load-avatar/',Loadprofile.as_view(),name='load-avatar'),
     path('load-qr-code/',Loadqrvecxin.as_view(),name='load-qr-code-vecxin'),
     path('load-tao-qr-vecxin',Taoqrvecxin.as_view(),name="tao-qr-code-vecxin"),
+
+    path('thong-bao/',Thongbaodsp.as_view(),name="thong-bao"),
+    path('quy-dinh/',Quydinhcdsp.as_view(),name="quy-dinh"),
+    path('che-do/',Chedodsp.as_view(),name="che-do"),
+    path('cong-luong-thuong/',Luongthuongcong.as_view(),name='cong-luong-thuong'),
 
     path('load-thong-bao/',Loadxemthongbao.as_view(),name="load-thong-bao"),
     path('nhan-vien/danh-ba',Danhba.as_view(),name='danh-ba'),
@@ -143,6 +175,11 @@ urlpatterns = [
     path('kho-van/thu-kho-can-xu-ly/<int:code_id>',Formxulynhapkho.as_view(),name="form-thu-kho-can-xu-ly"),
     path('kho-van/thu-kho-treo/',Thukho_Treo.as_view(),name="thu-kho-treo"),
     path('dieu-chuyen-kho/',Dieuchuyenkho.as_view(),name="dieu-chuyen-kho"),
+
+    path('boot-lich-xe/',Datxe.as_view(),name="lich-xe"),
+
+
     url(r'^media/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT}), 
     url(r'^static/(?P<path>.*)$', serve,{'document_root':settings.STATIC_ROOT}), 
+    
               ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

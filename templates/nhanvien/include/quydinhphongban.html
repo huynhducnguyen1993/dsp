@@ -1,0 +1,53 @@
+{%for item in qdpb %}
+<div class="card">
+    <div class="card-header  card-primary p-2">
+
+
+        <strong> {{item.tenquydinh}}</strong>
+        <span class="time"><i class="far ion-social-octocat"></i>
+
+            -- Ngày Đăng : {{item.created_at|date:'d - m - y'}}
+        </span>
+    </div>
+    {%if item.file %}
+    <div class="card-body">
+       
+            
+            <a href="{{item.file.url}}" target="_blank"> <strong style="color: crimson;border: cyan;">***File Nội Dung
+                    Đính Kèm</strong></a>
+           
+
+    </div>
+    {%endif%}
+    <div class="card-footer">
+        <div class="text-right"> 
+        <button type="button" class="btn  btn-sm btn-primary" data-toggle="modal"
+            data-target="#exampleModalqdpb{{item.id}}">
+            Xem Chi Tiết
+        </button>
+        </div>
+        
+        <div class="modal fade" id="exampleModalqdpb{{item.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabelqdpb{{item.id}}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabelqdpb{{item.id}}">{{item.tieude}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{item.noidung|safe}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button id="daxemtbct-{{item.id}}" type="button" class="btn btn-sm btn-primary">Đã Xem</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+</div>
+{%endfor%}

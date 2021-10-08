@@ -30,12 +30,8 @@
                 </a></h3>
 
             <div class="timeline-body">
-                <div id="readmorect-{{item.id}}">
-                    {{item.noidung|safe|truncatechars:200}}
-                </div>
-                <div id="readfullct-{{item.id}}">
-                    {{item.noidung|safe}}
-                </div>
+                
+               
 
 
             </div>
@@ -44,6 +40,31 @@
             </div>
 
             <div class="timeline-footer">
+                <button type="button" class="btn  btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Xem Chi Tiết
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{item.tieude}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{item.noidung|safe}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button  id="daxemtbct-{{item.id}}" type="button" class="btn btn-primary">Đã Xem</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {%if item.id_viewers != None %}
                 {%for key,value in item.id_viewers.items %}
 
@@ -58,13 +79,7 @@
                 {%endfor%}
 
                 {%endif%}
-                <a id="xemchitietct-{{item.id}}" class="btn btn-primary btn-sm">
-                    Xem chi tiết
-                </a>
-
-                <a id="thugonct-{{item.id}}" class="btn btn-dark btn-sm">
-                    Thu Gọn
-                </a>
+                
 
             </div>
         </div>
@@ -73,22 +88,7 @@
 
     <script>
 
-        $(document).ready(function () {
-            $('#readfullct-{{item.id}}').hide()
-            $('#thugonct-{{item.id}}').hide()
-            $('#daxemtbct-{{item.id}}').hide()
-            $("#daxemtbct-{{item.id}}").addClass('btn-warning')
-
-        });
-
-        $('#xemchitietct-{{item.id}}').click(this, function () {
-            $('#readmorect-{{item.id}}').hide()
-            $('#readfullct-{{item.id}}').show()
-            $('#xemchitietct-{{item.id}}').hide()
-            $('#thugonct-{{item.id}}').show()
-            $('#daxemtbct-{{item.id}}').show()
-        })
-
+       
         $('#daxemtbct-{{item.id}}').click(this, function () {
             $('#daxemtbct-{{item.id}}').text('Nhân Viên Đã Xem')
             $('#daxemtbct-{{item.id}}').removeClass('btn-warning')
@@ -110,14 +110,6 @@
         });
 
 
-        $('#thugonct-{{item.id}}').click(this, function () {
-            $('#readmorect-{{item.id}}').show()
-            $('#readfullct-{{item.id}}').hide()
-            $('#xemchitietct-{{item.id}}').show()
-            $('#thugonct-{{item.id}}').hide()
-
-
-        });
     </script>
     {%endif%}
 

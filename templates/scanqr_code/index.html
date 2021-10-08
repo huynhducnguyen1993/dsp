@@ -1,0 +1,100 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ĐÔNG SAPA | Công Ty Cổ Phần Cơ Điện Lạnh Đông Sapa</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Libre Barcode 39' rel='stylesheet'>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    
+
+    <script type="text/javascript" src="{% static 'quetqr/instascan.min.js'%}"></script>
+    <!-- Google Font: Source Sans Pro -->
+   
+    <!-- Bootstrap4 Duallistbox -->
+
+</head>
+
+<body>
+
+
+    <div class="">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+            <h1 style="color: dodgerblue; text-align: center; font-size: 38px;"> CÔNG TY CỔ PHẦN CƠ ĐIỆN LẠNH ĐÔNG SAPA
+            </h1>
+            <h6 style="text-align: center;">456/72 Cao Thắng Phường 12 - Quận 10 - Hồ CHí Minh </h6>
+            <br>
+
+            <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                
+                <video id="preview" ></video>
+    
+                <script type="text/javascript">
+                  let scanner = new Instascan.Scanner({
+                    video: document.getElementById('preview')
+                  });
+            
+                  scanner.addListener('scan', function (content) {
+                    alert(content);
+                  });
+            
+                  Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                      scanner.start(cameras[0]);
+                    } else {
+                      console.error('No cameras found.');
+                    }
+                  }).catch(function (e) {
+                    console.error(e);
+                  });
+                </script>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+
+
+    </div>
+</body>
+
+
+<!-- Select2 -->
+
+
+<!-- Select2 -->
+
+<footer>
+
+
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+</body>
+
+</html>

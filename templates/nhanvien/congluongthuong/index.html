@@ -1,0 +1,164 @@
+{% extends 'base.html'%} {%load static%}
+{%block conngluongthuong%}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Thông Báo</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="card">
+
+
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+
+                                <li class="nav-item"><a class="nav-link active" href="#luong" data-toggle="tab">LƯƠNG
+                                    </a></li>
+                                <li class="nav-item"><a class="nav-link " href="#baohiem" data-toggle="tab">BẢO HIỂM
+                                    </a></li>
+                                <li class="nav-item"><a class="nav-link " href="#motacv" data-toggle="tab">MÔ TẢ
+                                        CÔNG VIỆC
+
+                                    </a>
+                                </li>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+
+                                <div class="active tab-pane" id="luong">
+
+                                    <section>
+                                        <div class="card-header p-2">
+                                            <ul class="nav nav-pills">
+                                                <li class="nav-item  "><a class="nav-link  " href="#cong"
+                                                        data-toggle="tab">BẢN CÔNG </a></li>
+                                                <li class="nav-item active "><a class="nav-link  active" href="#luongs"
+                                                        data-toggle="tab">PHIẾU LƯƠNG </a></li>
+                                                <li class="nav-item  "><a class="nav-link  " href="#luongtn"
+                                                        data-toggle="tab">LƯƠNG THÂM NIÊN </a></li>
+                                                <li class="nav-item"><a class="nav-link " href="#lthuongp"
+                                                        data-toggle="tab">THƯỞNG THEO PHÒNG </a></li>
+                                                <li class="nav-item"><a class="nav-link " href="#lthuongn"
+                                                        data-toggle="tab">THƯỞNG THEO NĂM </a></li>
+
+                                            </ul>
+                                        </div>
+
+                                        <div class="tab-content">
+                                            <div class=" tab-pane " id="cong">
+                                                {%include 'nhanvien/include/bangcong.html'%}
+                                            </div>
+                                            <div class=" tab-pane active actives" id="luongs">
+                                                {%include 'nhanvien/include/phieuluong.html'%}
+                                            </div>
+                                            <!-- lương thâm niên  -->
+                                            <div class=" tab-pane" id="luongtn">
+                                                {% include 'nhanvien/include/luongthamnien.html' %}
+                                            </div>
+                                            <!-- luong tham niên  -->
+                                            <div class=" tab-pane" id="lthuongp">
+                                                {%include 'nhanvien/include/thuongphongban.html'%}
+                                            </div>
+                                            <!--  -->
+                                            <div class=" tab-pane" id="lthuongn">
+                                                {%include 'nhanvien/include/thuongnam.html'%}
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </section>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class=" tab-pane" id="baohiem">
+                                    <section>
+                                        <div class="card-header p-2">
+
+                                            <ul class="nav nav-pills">
+                                                <li class="nav-item active "><a class="nav-link  active" href="#bhxh"
+                                                        data-toggle="tab">BẢO HIỂM XÃ HỘI </a></li>
+                                                <li class="nav-item"><a class="nav-link " href="#bhyt"
+                                                        data-toggle="tab">BẢO
+                                                        HIỂM Y TẾ </a></li>
+                                                <li class="nav-item"><a class="nav-link " href="#bh24h"
+                                                        data-toggle="tab">BẢO HIỂM 24H </a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-content">
+                                            <br>
+                                            <div class=" active tab-pane" id="bhxh">
+                                                {% include 'nhanvien/include/bhxh.html' %}
+
+                                                <!-- Bảo Hiểm Xã hội  -->
+                                            </div>
+
+                                            <div class=" tab-pane" id="bhyt">
+                                                <!-- Bảo Hiểm Y tế  -->
+                                                {%include 'nhanvien/include/bhyt.html'%}
+                                                <!-- Bảo Hiểm Y tế  -->
+
+                                            </div>
+                                            <div class=" tab-pane" id="bh24h">
+                                                <!-- Bảo Hiểm 24H -->
+                                                {%include 'nhanvien/include/bh24h.html' %}
+
+                                                <!-- Bảo Hiểm 24H  -->
+                                            </div>
+
+                                        </div>
+                                    </section>
+
+                                </div>
+
+                                <!-- thong báo phòng ban  -->
+                                <div class=" tab-pane" id="motacv">
+
+                                    {% include 'nhanvien/include/motacongviec.html' %}
+                                    <!-- Button trigger modal -->
+
+                                </div>
+                            </div>
+                            <!-- /thong báo  -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.col -->
+
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+{%endblock%}
